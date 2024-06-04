@@ -9,16 +9,17 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'node_modules/bootstrap-icons/font/bootstrap-icons.css' %}" />
     <!-- jquery -->
-    <script src="{% static 'jquery-3.6.0.min' %}"></script>
-    <title>Home - Arnold GYM</title>
+    <script src="{% static 'jquery-3.2.1.slim.min.js' %}"></script>
+
+    <title>Home - RJ GYM</title>
   </head>
   <body>
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-warning">
 	  <div class="container">
-	    <a class="navbar-brand" href="./">Arnold GYM</a>
+	    <a class="navbar-brand" href="./">RJ GYM</a>
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
@@ -65,10 +66,11 @@
             <a href="page.php">Terms</a> . 
             <a href="faq.php">FAQ</a>
         </p>
-	  </footer>
+	</footer>
 
     <!-- Bootstrap Bundle -->
     <script src="{% static 'bootstrap.min.js' %}"></script>
+    <script src="{% static 'jquery-3.2.1.slim.min.js' %}"></script>
 
   </body>
 </html>
