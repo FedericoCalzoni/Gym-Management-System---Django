@@ -36,36 +36,21 @@
 		<section class="container my-4">
 			<h1 class="text-center mb-4 section-heading">Services</h1>
 			<div class="row">
+
+				{% for services in service %}
+
 				<div class="col-md-4">
 					<div class="card">
-					  <img src="{% static 'images/cardio-1.jpg' %}" class="card-img-top" alt="...">
+					  <img src="{{services.img.url}}" class="card-img-top" alt="...">
 					  <div class="card-body">
-					    <h3 class="card-title">Cardio</h3>
-					    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					    <h3 class="card-title">{{services.title}}</h3>
+					    <p class="card-text">{{services.details}}</p>
 					    <a href="service.html" class="btn btn-primary">Read More</a>
 					  </div>
 					</div>
 				</div>
-				<div class="col-md-4">
-					<div class="card">
-					  <img src="{% static 'images/body-2.jpg' %}" class="card-img-top" alt="...">
-					  <div class="card-body">
-					    <h3 class="card-title">Body Building</h3>
-					    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-					    <a href="service.htmll" class="btn btn-primary">Read More</a>
-					  </div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="card">
-					  <img src="{% static 'images/dance-3.jpg' %}" class="card-img-top" alt="...">
-					  <div class="card-body">
-					    <h3 class="card-title">Dancing</h3>
-					    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-					    <a href="service.html" class="btn btn-primary">Read More</a>
-					  </div>
-					</div>
-				</div>
+
+				{% endfor %}
 			</div>
 		</section>
 		<!-- End -->

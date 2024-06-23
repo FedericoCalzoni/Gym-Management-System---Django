@@ -6,3 +6,7 @@ class BannerAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Banners,BannerAdmin)
 
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ('title','image_tag')
+admin.site.register(models.Service,ServiceAdmin)
+
