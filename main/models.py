@@ -1,3 +1,4 @@
+from typing import Any
 from django.db import models
 from django.utils.safestring import mark_safe
 
@@ -29,3 +30,11 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class Faq(models.Model):
+    question = models.TextField(max_length=100)
+    answer = models.TextField(max_length=100)
+
+    def __str__(self):
+        return self.question

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Banners ,Service,Page
+from .models import Banners ,Service,Page,Faq
 
 def home(request):
     banners = Banners.objects.all()
@@ -15,3 +15,11 @@ def page_detail(request,id):
     context = {'pages':pages}
 
     return render(request, 'page.html',context)
+
+
+def faq_page(request):
+    faq = Faq.objects.all()
+    
+    context = {'faq':faq}
+
+    return render(request, 'faq.html',context)
