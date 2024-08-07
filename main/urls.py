@@ -6,5 +6,6 @@ from GYM_MANAGEMENT_SYSTEM.settings import MEDIA_ROOT
 from . import views
 
 urlpatterns = [
-    path('',views.home,name = '')
+    path('',views.home,name = ''),
+    path('pagedetail/<int:id>',views.page_detail,name = 'page')
 ]+static(settings.MEDIA_URL,document_root = MEDIA_ROOT)

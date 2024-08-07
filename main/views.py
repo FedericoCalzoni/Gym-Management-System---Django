@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Banners ,Service
+from .models import Banners ,Service,Page
 
 def home(request):
     banners = Banners.objects.all()
@@ -8,3 +8,10 @@ def home(request):
     context = {"banners":banners,'service':service}
 
     return render(request, 'home.html',context)
+
+def page_detail(request,id):
+    pages = Page.objects.get(id=id)
+    
+    context = {'pages':pages}
+
+    return render(request, 'page.html',context)
