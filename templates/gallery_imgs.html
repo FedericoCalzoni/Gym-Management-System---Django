@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main>
+    <!-- Services -->
+    <section class="container my-4">
+        <h1 class="text-center mb-4 section-heading border-bottom pb-2">{{gallery.title}} Images</h1>
+        <div class="row">
+          {% for gallery_img in gallery_imgs %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                  <img src={{gallery_img.img.url}} class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{gallery_img.title}}</h5>
+                    <p class="card-text">{{gallery_img.details}}</p>
+                    
+                  </div>
+                </div>
+
+            </div>
+
+          {% endfor %}
+          <div class="text-center my-3">
+            <a href="{% url 'gallery' %}" class="btn btn-primary btn-large">Go Back</a>
+        </div>
+        </div>
+    </section>
+    <!-- End -->
+</main>
+
+{% endblock %}

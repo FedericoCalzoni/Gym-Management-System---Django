@@ -42,9 +42,32 @@ class Faq(models.Model):
 
 class Enquiry(models.Model):
     full_name = models.CharField(max_length=100)
-    email = models.CharField(max_length=20)
     query = models.TextField(max_length=100)
+    email = models.CharField(max_length=20)
     send_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.full_name
+    
+
+class Gallery(models.Model):
+    title = models.CharField(max_length=50)
+    details = models.TextField(max_length=150)
+    img = models.ImageField(upload_to="gallery")
+
+    def __str__(self) -> str:
+        return self.title
+    
+    def image_tag(self):
+        return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
+    
+class GalleryImages(models.Model):
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE,null=True)
+    alt_text = models.CharField(max_length=50)
+    img = models.ImageField(upload_to="gallery_imgs")
+
+    def __str__(self) -> str:
+        return self.alt_text
+    
+    def image_tag(self):
+        return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Banners ,Service,Page,Faq
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages
 from . import forms
 
 
@@ -41,4 +41,20 @@ def enquiry(request):
     context = {'form':form,'msg':msg}
 
     return render(request, 'enquiry.html',context)
+
+
+def gallery (request):
+
+    gallery = Gallery.objects.all().order_by('-id')
+    context = {'gallery':gallery}
+
+    return render(request, 'gallery.html',context)
+
+def gallery_photos(request,id):
+    
+    gallery = Gallery.objects.get(id=id)
+    gallery_imgs = GalleryImages.objects.filter(gallery=gallery).order_by('-id')
+    context = {'gallery_imgs':gallery_imgs,'gallery':gallery}
+
+    return render(request, 'gallery_imgs.html',context)
 
