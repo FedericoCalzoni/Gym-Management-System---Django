@@ -71,3 +71,20 @@ class GalleryImages(models.Model):
     
     def image_tag(self):
         return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
+
+
+class  SubscriptionPlans(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.IntegerField()
+    highlight_status = models.BooleanField(default=False,null=True)
+
+    def __str__(self) -> str:
+        return self.title
+    
+
+class SubscriptionPlansFeatures(models.Model):
+    subplan = models.ForeignKey(SubscriptionPlans,on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return self.title

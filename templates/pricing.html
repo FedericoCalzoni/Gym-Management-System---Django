@@ -3,60 +3,42 @@
 {% block content %}
 
 <section class="container my-4">
-    <h1 class="text-center mb-4 section-heading border-bottom pb-2">Plans</h1>
+    <h1 class="text-center mb-4 section-heading border-bottom pb-2">Subscription Plans</h1>
 <main>
-<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center ">
+  {% for pricings in pricing %}
   <div class="col">
-    <div class="card mb-4 rounded-3 shadow-sm">
-      <div class="card-header py-3">
-        <h4 class="my-0 fw-normal">Basic</h4>
+    <div class="card mb-4 rounded-3 shadow-sm {% if pricings.highlight_status %} border-primary {% endif %}">
+
+      {% if pricings.highlight_status %}
+      <div class="card-header py-3 text-white bg-primary border-primary">
+        <h4 class="my-0 fw-normal">{{pricings.title}}</h4>
       </div>
+
+      {% else %}
+
+      <div class="card-header py-3">
+        <h4 class="my-0 fw-normal">{{pricings.title}}</h4>
+      </div>
+      {% endif %}
+
+        
       <div class="card-body">
-        <h1 class="card-title pricing-card-title">$150<small class="text-muted fw-light">/mo</small></h1>
+        <h1 class="card-title pricing-card-title">${{pricings.price}}<small class="text-muted fw-light">/mo</small></h1>
         <ul class="list-unstyled mt-3 mb-4">
-          <li>Exercise Schedule</li>
-          <li>Diet Plan</li>
-          <li>...</li>
-          <li>...</li>
+
+          {% for features in pricings.subscriptionplansfeatures_set.all %}
+          <li><strong><b>.</b></strong> {{features.title}}</li>
+         {% endfor %}
+
         </ul>
         <a href="checkout.html" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
       </div>
     </div>
   </div>
-  <div class="col">
-    <div class="card mb-4 rounded-3 shadow-sm">
-      <div class="card-header py-3">
-        <h4 class="my-0 fw-normal">Medium</h4>
-      </div>
-      <div class="card-body">
-        <h1 class="card-title pricing-card-title">$250<small class="text-muted fw-light">/mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>Exercise Schedule</li>
-          <li>Diet Plan</li>
-          <li>Individual Coach</li>
-          <li>Cardio</li>
-        </ul>
-        <button type="button" class="w-100 btn btn-lg btn-outline-primary">Get started</button>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card mb-4 rounded-3 shadow-sm border-primary">
-      <div class="card-header py-3 text-white bg-primary border-primary">
-        <h4 class="my-0 fw-normal">Advance</h4>
-      </div>
-      <div class="card-body">
-        <h1 class="card-title pricing-card-title">$350<small class="text-muted fw-light">/mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>Exercise Schedule</li>
-          <li>Diet Plan</li>
-          <li>Individual Coach</li>
-          <li>Cardio & Functional Training</li>
-        </ul>
-        <button type="button" class="w-100 btn btn-lg btn-outline-primary">Get started</button>
-      </div>
-    </div>
-  </div>
+
+  {% endfor %}
+  
 </div>
 
 <h2 class="display-6 text-center mb-4">Compare plans</h2>
@@ -66,36 +48,35 @@
     <thead>
       <tr>
         <th style="width: 34%;"></th>
-        <th style="width: 22%;">Basic</th>
-        <th style="width: 22%;">Medium</th>
-        <th style="width: 22%;">Advance</th>
+        {% for pricings in pricing %}
+        <th style="width: 22%;">{{pricings.title}}</th>
+        {% endfor %}
       </tr>
     </thead>
     <tbody>
+      {% for feature_title, plan_ids in features_map.items %}
       <tr>
-        <th scope="row" class="text-start">Exercise Schedule</th>
-        <td><i class="bi bi-check-lg"></i></td>
-        <td><i class="bi bi-check-lg"></i></td>
-        <td><i class="bi bi-check-lg"></i></td>
+        <th scope="row" class="text-start">{{feature_title}}</th>
+
+
+        {% for pricings in pricing %}
+        
+        <td>
+          {% if pricings.id in plan_ids%}
+          <i class="bi bi-check-lg"></i>
+          {% else %}
+          <i class="bi bi-x text-danger"></i>
+          {% endif %}
+
+        </td>
+
+        {% endfor %}
+
+
       </tr>
-      <tr>
-        <th scope="row" class="text-start">Diet Plan</th>
-        <td><i class="bi bi-check-lg"></i></td>
-        <td><i class="bi bi-check-lg"></i></td>
-        <td><i class="bi bi-check-lg"></i></td>
-      </tr>
-      <tr>
-        <th scope="row" class="text-start">Individual Coach</th>
-        <td><i class="bi bi-x-lg text-danger"></i></td>
-        <td><i class="bi bi-check-lg"></i></td>
-        <td><i class="bi bi-check-lg"></i></td>
-      </tr>
-      <tr>
-        <th scope="row" class="text-start">Cardio & Functional Training</th>
-        <td><i class="bi bi-x-lg text-danger"></i></td>
-        <td><i class="bi bi-x-lg text-danger"></i></td>
-        <td><i class="bi bi-check-lg"></i></td>
-      </tr>
+      {% endfor %}
+      
+     
     </tbody>
   </table>
 </div>

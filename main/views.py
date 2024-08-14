@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures
 from . import forms
 
 
@@ -57,4 +57,22 @@ def gallery_photos(request,id):
     context = {'gallery_imgs':gallery_imgs,'gallery':gallery}
 
     return render(request, 'gallery_imgs.html',context)
+
+
+def pricing(request):
+
+    pricing = SubscriptionPlans.objects.all()
+    features_map = {}
+
+    for feature in SubscriptionPlansFeatures.objects.all():
+        if feature.title not in features_map:
+            features_map[feature.title] = []
+        features_map[feature.title].append(feature.subplan.id)
+
+    # distinct_features = SubscriptionPlansFeatures.objects.distinct('title')
+    context = {'pricing':pricing,'features_map':features_map}
+
+    return render(request, 'pricing.html',context)
+
+
 

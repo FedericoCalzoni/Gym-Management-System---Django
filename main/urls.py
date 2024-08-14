@@ -12,5 +12,6 @@ urlpatterns = [
     path('Enquiry/',views.enquiry,name = 'enquiry'),    
     path('Gallery/',views.gallery,name = 'gallery'),    
     path('Gallery_Photos<int:id>/',views.gallery_photos,name = 'gallery_photos'),    
+    path('Subscription-Plans/',views.pricing,name = 'pricing'),    
 
 ]+static(settings.MEDIA_URL,document_root = MEDIA_ROOT)

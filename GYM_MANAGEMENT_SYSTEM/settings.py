@@ -138,8 +138,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 JAZZMIN_SETTINGS = {
-    # title of the window (Will default to current_admin_site.site_title if absent or None)
+
     "site_title": "GMS Admin",
     "site_header": "Admin Panel",
-     "order_with_respect_to": ["auth", "main.banners", "main.service", "main.enquiry", "main.gallery", "main.GalleryImages","main.Page"],
+     "order_with_respect_to": ["auth", "main.banners", "main.service", "main.enquiry", "main.gallery", "main.GalleryImages","main.Page","main.subscriptionplans","main.subscriptionplansfeatures"],
     }

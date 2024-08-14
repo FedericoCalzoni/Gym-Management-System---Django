@@ -36,6 +36,15 @@ class GalleryImageAdmin(admin.ModelAdmin):
 admin.site.register(models.GalleryImages,GalleryImageAdmin)
 
 
+class SubscriptionPlansAdmin(admin.ModelAdmin):
+    list_editable = ('highlight_status',)
+    list_display = ('title','price','highlight_status')
+admin.site.register(models.SubscriptionPlans, SubscriptionPlansAdmin)
+
+
+class SubscriptionPlansFeaturessAdmin(admin.ModelAdmin):
+    list_display = ('title','subplan')
+admin.site.register(models.SubscriptionPlansFeatures, SubscriptionPlansFeaturessAdmin)
 
 
 
