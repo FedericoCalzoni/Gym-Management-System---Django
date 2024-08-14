@@ -43,7 +43,11 @@ admin.site.register(models.SubscriptionPlans, SubscriptionPlansAdmin)
 
 
 class SubscriptionPlansFeaturessAdmin(admin.ModelAdmin):
-    list_display = ('title','subplan')
+    list_display = ('title','subplans')
+
+    def subplans(self,obj):
+        return " | ".join([sub.title for sub in obj.subplan.all()])
+
 admin.site.register(models.SubscriptionPlansFeatures, SubscriptionPlansFeaturessAdmin)
 
 

@@ -83,7 +83,7 @@ class  SubscriptionPlans(models.Model):
     
 
 class SubscriptionPlansFeatures(models.Model):
-    subplan = models.ForeignKey(SubscriptionPlans,on_delete=models.CASCADE)
+    subplan = models.ManyToManyField(SubscriptionPlans)
     title = models.CharField(max_length=100)
 
     def __str__(self) -> str:

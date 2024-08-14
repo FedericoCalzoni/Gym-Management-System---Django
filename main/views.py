@@ -62,15 +62,8 @@ def gallery_photos(request,id):
 def pricing(request):
 
     pricing = SubscriptionPlans.objects.all()
-    features_map = {}
-
-    for feature in SubscriptionPlansFeatures.objects.all():
-        if feature.title not in features_map:
-            features_map[feature.title] = []
-        features_map[feature.title].append(feature.subplan.id)
-
-    # distinct_features = SubscriptionPlansFeatures.objects.distinct('title')
-    context = {'pricing':pricing,'features_map':features_map}
+    distinct_features = SubscriptionPlansFeatures.objects.all()
+    context = {'pricing':pricing,'distinct_features':distinct_features}
 
     return render(request, 'pricing.html',context)
 
