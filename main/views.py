@@ -7,7 +7,9 @@ def home(request):
 
     banners = Banners.objects.all()
     service = Service.objects.all()[:3]
-    context = {"banners":banners,'service':service}
+    gallery_images = GalleryImages.objects.all().order_by('-id')[:8]
+
+    context = {"banners":banners,'service':service,'gallery_images':gallery_images}
 
     return render(request, 'home.html',context)
 

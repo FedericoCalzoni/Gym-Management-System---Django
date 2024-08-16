@@ -66,19 +66,17 @@
 					</div>
 					<div class="col-md-6 offset-1">
 							<h1 class="mb-4 section-heading">Gallery <a href="#" class="float-end btn btn-info text-white mt-2">View All</a></h1>
+							
 							<div class="gallery">
-								<a data-lightbox="home-gallery" href="{% static 'images/body-2.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/body-2.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/body-2.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/body-2.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/cardio-1.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/body-2.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/body-2.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/body-2.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/body-2.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/dance-3.jpg' %}"><img src="{% static 'images/dance-3.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/body-2.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="{% static 'images/body-2.jpg' %}"><img src="{% static 'images/body-2.jpg' %}" width="155" class="img-thumbnail" alt="..."></a>
+
+								{% for gallery_image in gallery_images %}
+
+								<a data-lightbox="home-gallery" href="{{gallery_image.img.url }}">
+									<img src="{{gallery_image.img.url }}" width="155" class="img-thumbnail" alt="{{gallery_image.alt_text}}">
+								</a>
+								
+								{% endfor %}
+
 							</div>
 					</div>
 				</div>
@@ -88,4 +86,14 @@
 
     </main>
     <!-- End -->
+
+
+	<!-- Light box css -->
+
+	<link rel="stylesheet" type="text/css" href="{% static 'lightbox2/dist/css/lightbox.min.css' %}"/>
+
+	<!-- Light box js -->
+
+	<script type="text/javascript" src="{% static 'lightbox2/dist/js/lightbox.min.js' %}"></script>
+
 {% endblock %}
