@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from GYM_MANAGEMENT_SYSTEM.settings import MEDIA_ROOT
 
 from . import views
+from .views import CustomLoginView,CustomLogoutView
 
 urlpatterns = [
     path('',views.home,name = ''),
@@ -13,5 +14,8 @@ urlpatterns = [
     path('Gallery/',views.gallery,name = 'gallery'),    
     path('Gallery_Photos<int:id>/',views.gallery_photos,name = 'gallery_photos'),    
     path('Subscription-Plans/',views.pricing,name = 'pricing'),    
+    path('Login', CustomLoginView.as_view(),name= 'login'), 
+    path('Logout', CustomLogoutView.as_view(),name= 'logout'), 
+
 
 ]+static(settings.MEDIA_URL,document_root = MEDIA_ROOT)

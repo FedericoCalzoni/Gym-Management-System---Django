@@ -3,6 +3,16 @@ from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,Subscriptio
 from . import forms
 
 
+from django.urls import reverse_lazy
+from .forms import LoginForm
+# from django.contrib import auth
+from django.contrib.auth import authenticate,login
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.views import LoginView,LogoutView
+from django.shortcuts import redirect
+
+
 def home(request):
 
     banners = Banners.objects.all()
@@ -70,4 +80,32 @@ def pricing(request):
     return render(request, 'pricing.html',context)
 
 
+class CustomLoginView(LoginView):
+    form_class = LoginForm
+    template_name = 'login.html'
+    success_url = reverse_lazy('')
 
+    def get_success_url(self):
+        return self.success_url
+    
+    def form_valid(self, form):
+        user = authenticate(
+            request=self.request,
+            username=form.cleaned_data.get('username'),
+            password=form.cleaned_data.get('password')
+        )
+        if user is not None:
+            login(self.request, user)
+            return super().form_valid(form)
+        else:
+            messages.error(self.request, "Invalid username or password.")
+            return self.form_invalid(form)
+
+
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy('login')
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        messages.success(request, "Account logged out!")
+        return response
