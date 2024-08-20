@@ -71,7 +71,7 @@ def gallery_photos(request,id):
 
 def pricing(request):
 
-    pricing = SubscriptionPlans.objects.all()
+    pricing = SubscriptionPlans.objects.all().order_by('price')
     distinct_features = SubscriptionPlansFeatures.objects.all()
     context = {'pricing':pricing,'distinct_features':distinct_features}
 
