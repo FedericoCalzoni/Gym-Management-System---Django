@@ -3,24 +3,46 @@
 {% load crispy_forms_tags %}
 
 <main>
-    <!-- Services -->
-    <section class="container my-4">
+    <section class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-5">
+                        <h2 class="text-center mb-4 section-heading border-bottom pb-3 ">Login</h2>
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
 
-       
-        <h1 class="text-center mb-4 section-heading border-bottom pb-2">Login</h1>
-        <div class="row">
-            <div class="col-md-6 offset-3">
+                            <div class="form-group mb-4">
+                                <!-- <label for="id_username" class="form-label fw-bold text-warning">Username</label> -->
+                                {{ form.username|as_crispy_field }}
+                                <div class="form-text text-muted">
+                                    <!-- You can add any help text here if needed -->
+                                </div>
+                                {{ form.username.errors }}
+                            </div>
 
-                <form method="post" action="{% url 'login' %}">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </form>
+                            <div class="form-group mb-4">
+                                <!-- <label for="id_password" class="form-label fw-bold text-warning">Password</label> -->
+                                {{ form.password|as_crispy_field }}
+                                <div class="form-text text-muted">
+                                    <!-- You can add any help text here if needed -->
+                                </div>
+                                {{ form.password.errors }}
+                            </div>
 
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-warning btn-block">Login</button>
+                            </div>
+
+                            <br> Don't have an account? <a href ="{% url 'register' %}" class ="text-decoration-none">Register here</a>
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    <!-- End -->
 </main>
 
 {% endblock %}

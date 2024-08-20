@@ -1,16 +1,14 @@
 from django.shortcuts import render
 from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures
-from . import forms
+from .forms import LoginForm,CreateUserForm,EnquiryForms
 
 
 from django.urls import reverse_lazy
-from .forms import LoginForm
 # from django.contrib import auth
 from django.contrib.auth import authenticate,login
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.views import LoginView,LogoutView
-from django.shortcuts import redirect
+from django.views.generic import CreateView
 
 
 def home(request):
@@ -43,13 +41,13 @@ def enquiry(request):
 
     msg= ''
     if(request.method == 'POST'):
-        form = forms.EnquiryForms(request.POST)
+        form = EnquiryForms(request.POST)
 
         if(form.is_valid()):
             form.save()
             msg = "Data has been saved successfully!"
 
-    form = forms.EnquiryForms
+    form = EnquiryForms
     context = {'form':form,'msg':msg}
 
     return render(request, 'enquiry.html',context)
@@ -78,6 +76,16 @@ def pricing(request):
     context = {'pricing':pricing,'distinct_features':distinct_features}
 
     return render(request, 'pricing.html',context)
+
+
+class RegisterView(CreateView):
+    form_class = CreateUserForm
+    template_name = "register.html"
+    success_url = reverse_lazy('')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Account created successfully!")
+        return super().form_valid(form)
 
 
 class CustomLoginView(LoginView):
@@ -109,3 +117,5 @@ class CustomLogoutView(LogoutView):
         response = super().dispatch(request, *args, **kwargs)
         messages.success(request, "Account logged out!")
         return response
+
+
