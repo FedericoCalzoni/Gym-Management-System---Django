@@ -47,8 +47,19 @@ class SubscriptionPlansFeaturessAdmin(admin.ModelAdmin):
 
     def subplans(self,obj):
         return " | ".join([sub.title for sub in obj.subplan.all()])
-
+    
 admin.site.register(models.SubscriptionPlansFeatures, SubscriptionPlansFeaturessAdmin)
+
+
+class SubscriberAdmin(admin.ModelAdmin):
+    list_display = ('user','image_tag','mobile','address')
+admin.site.register(models.Subscriber, SubscriberAdmin)
+
+
+class SubscriptionTypeAdmin(admin.ModelAdmin):
+    list_display = ('user','plan','price')
+    
+admin.site.register(models.SubscriptionType, SubscriptionTypeAdmin)
 
 
 

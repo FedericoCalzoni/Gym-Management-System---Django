@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures
 from .forms import LoginForm,CreateUserForm,EnquiryForms
 
@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.views import LoginView,LogoutView
 from django.views.generic import CreateView
 
+import stripe
 
 def home(request):
 
@@ -126,3 +127,35 @@ class CustomLogoutView(LogoutView):
         return response
 
 
+
+stripe.api_key = 'sk_test_51Pqd0GRt8gmpf2hudaW3D1PiCofqvFGUZGJ1qSQ4KgNdmDtYyYwvFm4Bnuk5TB2r76Q5283Nwb5zSgwHpVibD3e400rpSqa9oY'
+
+def checkout_session(request, plan_id):
+    plan = SubscriptionPlans.objects.get(pk=plan_id)
+    
+    session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=[{
+            'price_data': {
+                'currency': 'usd',
+                'product_data': {
+                    'name': plan.title,  
+                },
+                'unit_amount': int(plan.price * 100), 
+            },
+            'quantity': 1,
+        }],
+        mode='payment',
+        success_url='http://127.0.0.1:8000/Payment-Successfull',
+        cancel_url='http://127.0.0.1:8000/Payment-Cancel',
+    )
+    
+    return redirect(session.url, code=303)
+
+
+def payment_successfull(request):
+    return render(request, 'success.html')
+
+
+def payment_cancel(request):
+    return render(request, 'cancel.html')

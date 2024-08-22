@@ -18,6 +18,9 @@ urlpatterns = [
     path('Logout', CustomLogoutView.as_view(),name= 'logout'), 
     path('Register', RegisterView.as_view(),name= 'register'), 
     path('Plan_Details/<int:plan_id>', views.checkout,name= 'checkout'), 
+    path('Checkout/<int:plan_id>', views.checkout_session,name= 'checkout_session'), 
+    path('Payment-Successfull', views.payment_successfull,name= 'payment_successfull'), 
+    path('Payment-Cancel', views.payment_cancel,name= 'payment_cancel'), 
 
 
 ]+static(settings.MEDIA_URL,document_root = MEDIA_ROOT)

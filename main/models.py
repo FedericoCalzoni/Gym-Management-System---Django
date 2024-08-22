@@ -1,6 +1,6 @@
-from typing import Any
 from django.db import models
 from django.utils.safestring import mark_safe
+from django.contrib.auth.models import User
 
 
 class Banners(models.Model):
@@ -73,6 +73,7 @@ class GalleryImages(models.Model):
         return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
 
 
+# basic standard ... types of subsciptions 
 class  SubscriptionPlans(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField()
@@ -82,10 +83,32 @@ class  SubscriptionPlans(models.Model):
     def __str__(self) -> str:
         return self.title
     
-
+# Above subscription types features
 class SubscriptionPlansFeatures(models.Model):
     subplan = models.ManyToManyField(SubscriptionPlans)
     title = models.CharField(max_length=100)
 
     def __str__(self) -> str:
         return self.title
+    
+
+# # The person to subscribe to a subscription Plan
+# class Subscriber(models.Model):
+#     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+#     mobile = models.CharField()
+#     address = models.TextField(max_length=100)
+#     img = models.ImageField(upload_to="subs")
+
+#     def __str__(self) -> str:
+#         return  self.user
+
+#     def image_tag(self):
+#         return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
+    
+
+# #The type of subscription done by user
+# class SubscriptionType(models.Model):
+#     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+#     plan = models.ForeignKey(SubscriptionPlans, on_delete=models.CASCADE, null=True)
+#     price = models.IntegerField()
+    
