@@ -78,6 +78,13 @@ def pricing(request):
     return render(request, 'pricing.html',context)
 
 
+def checkout(request,plan_id):
+    planDetails = SubscriptionPlans.objects.get(pk = plan_id)
+    context = {'plan_details':planDetails}
+    
+    return render(request, 'checkout.html', context)
+
+
 class RegisterView(CreateView):
     form_class = CreateUserForm
     template_name = "register.html"

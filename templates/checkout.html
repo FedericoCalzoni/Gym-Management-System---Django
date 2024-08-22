@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-
+<style>
+   .table th, .table td {
+    width: 25%; /* Adjust this based on your table layout */
+    text-align: center;
+}
+</style>
 <main>
     <!-- Services -->
     <section class="container my-4">
@@ -19,55 +24,54 @@
                             <table class="table-bordered table">
                                 <tr>
                                     <th>Name</th>
-                                    <td>Basic</td>
+                                    <td>{{plan_details.title}}</td>
                                 </tr>
                                 <tr>
                                     <th>Price</th>
-                                    <td>$150</td>
+                                    <td>{{plan_details.price}} $</td>
                                 </tr>
                                 <tr>
-                                    <th>Max Member</th>
-                                    <td>30</td>
+                                    <th>Maximum Members</th>
+                                    <td>{{plan_details.max_members}}</td>
                                 </tr>
                                 <tr>
                                     <th>Already Registered</th>
                                     <td>15</td>
                                 </tr>
                                 <tr>
-                                    <th>Balance Seats</th>
+                                    <th>Remaining Slots</th>
                                     <td>15</td>
                                 </tr>
                             </table>
                         </td>
                         <td>
                             <ul class="list-unstyled">
-                              <li>Exercise Schedule</li>
-                              <li>Diet Plan</li>
-                              <li>Individual Coach</li>
-                              <li>Cardio</li>
+                                {% for feature in plan_details.subscriptionplansfeatures_set.all %}
+                              <li>{{feature.title}}</li>
+                              {% endfor %}
                             </ul>
                         </td>
                         <td>
                             <table class="table table-bordered">
                                 <tr>
-                                    <td><input data-planprice="150" data-discount="0" type="radio" id="validity1" name="validity" class="select-validity" value="1" /></td>
+                                    <td><input data-planprice="{{plan_details.price}}" data-discount="0" type="radio" id="validity1" name="validity" class="select-validity" value="1" checked/></td>
                                     <th><label for="validity1">1 Month</label></th>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td><input data-planprice="150" data-discount="10" type="radio" id="validity2" name="validity" class="select-validity" value="3" /></td>
+                                    <td><input data-planprice="{{plan_details.price}}" data-discount="10" type="radio" id="validity2" name="validity" class="select-validity" value="3" /></td>
                                     <th><label for="validity2">3 Month</label></th>
-                                    <td>10%</td>
+                                    <td>10% Off</td>
                                 </tr>
                                 <tr>
-                                    <td><input data-planprice="150" data-discount="20" type="radio" id="validity3" value="6" name="validity" class="select-validity" /></td>
+                                    <td><input data-planprice="{{plan_details.price}}" data-discount="20" type="radio" id="validity3" value="6" name="validity" class="select-validity" /></td>
                                     <th><label for="validity3">6 Month</label></th>
-                                    <td>20%</td>
+                                    <td>20% Off</td>
                                 </tr>
                                 <tr>
-                                    <td><input data-planprice="150" data-discount="30" type="radio" id="validity4" value="12" name="validity" class="select-validity" /></td>
+                                    <td><input data-planprice="{{plan_details.price}}" data-discount="30" type="radio" id="validity4" value="12" name="validity" class="select-validity" /></td>
                                     <th><label for="validity4">12 Month</label></th>
-                                    <td>30%</td>
+                                    <td>30% Off</td>
                                 </tr>
                             </table>
                         </td>
@@ -77,7 +81,15 @@
                     <tr>
                         <td></td>
                         <th>Total Amount</th>
-                        <td><b>$<span class="totalAmount">150</span></b></td>
+                        <td>
+                            <b>
+                                <span class="originalLabel" style="font-size: smaller;">Original:</span>
+                                <span class="originalAmount" style="text-decoration: line-through; margin-right: 10px;">${{plan_details.price}}</span> 
+
+                                <span class="discountedLabel" style="font-size: smaller;">Discounted:</span>
+                                $<span class="totalAmount">{{plan_details.price}}</span>
+                            </b>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="2"></td>
@@ -86,26 +98,41 @@
                 </tfoot>
             </table>
     </section>
-    <!-- End -->
 </main>
 <!-- End -->
 
 <script type="text/javascript">
 $(document).ready(function(){
-    $(".select-validity").on('click',function(){
-        var _planPrice=$(this).attr('data-planprice');
-        var _planDisc=$(this).attr('data-discount');
-        var _planValid=$(this).val();
-        var _totalPrice=_planPrice*_planValid;
-        if(_planDisc>0){
-            var _discountedPrice=_totalPrice*_planDisc/100;
-            _discountedPrice=_totalPrice-_discountedPrice;
-        }else{
-            var _discountedPrice=_totalPrice;
+    function updatePricing() {
+        var _planPrice = parseFloat($(".select-validity:checked").attr('data-planprice')); // Original price
+        var _planDisc = parseFloat($(".select-validity:checked").attr('data-discount'));   // Discount percentage
+        var _planValid = parseInt($(".select-validity:checked").val());                    // Number of months
+
+        var _totalPrice = _planPrice * _planValid;  // Original total price
+
+        var _discountedPrice = _totalPrice;
+        if(_planDisc > 0){
+            _discountedPrice = _totalPrice - (_totalPrice * _planDisc / 100);  // Calculating the discounted price
+            $(".originalAmount").show(); // Show the original price with strikethrough
+            $(".discountedLabel").show(); // Show the discounted label
+        } else {
+            _discountedPrice = _totalPrice;
+            $(".originalAmount").hide(); // Hide the original price with strikethrough for 1-month plan
+            $(".discountedLabel").hide(); // Hide the discounted label for 1-month plan
         }
-        $(".totalAmount").text(_discountedPrice);
-    });
+
+        // Update the HTML with both original and discounted prices
+        $(".originalAmount").text('$' + _totalPrice.toFixed(2));   // Show original price with a strikethrough
+        $(".totalAmount").text(_discountedPrice.toFixed(2));       // Show discounted price
+    }
+
+    // Initialize the state based on the selected radio button
+    $(".select-validity:checked").each(updatePricing);
+    
+    // Update pricing on radio button change
+    $(".select-validity").on('click', updatePricing);
 });
+
 </script>
 
 {% endblock %}

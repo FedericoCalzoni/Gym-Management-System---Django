@@ -17,6 +17,7 @@ urlpatterns = [
     path('Login', CustomLoginView.as_view(),name= 'login'), 
     path('Logout', CustomLogoutView.as_view(),name= 'logout'), 
     path('Register', RegisterView.as_view(),name= 'register'), 
+    path('Plan_Details/<int:plan_id>', views.checkout,name= 'checkout'), 
 
 
 ]+static(settings.MEDIA_URL,document_root = MEDIA_ROOT)
