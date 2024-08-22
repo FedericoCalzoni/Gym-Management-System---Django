@@ -93,22 +93,22 @@ class SubscriptionPlansFeatures(models.Model):
     
 
 # # The person to subscribe to a subscription Plan
-# class Subscriber(models.Model):
-#     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
-#     mobile = models.CharField()
-#     address = models.TextField(max_length=100)
-#     img = models.ImageField(upload_to="subs")
+class Subscriber(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    mobile = models.CharField()
+    address = models.TextField(max_length=100)
+    img = models.ImageField(upload_to="subs")
 
-#     def __str__(self) -> str:
-#         return  self.user
+    def __str__(self) -> str:
+        return  self.user
 
-#     def image_tag(self):
-#         return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
+    def image_tag(self):
+        return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
     
 
 # #The type of subscription done by user
-# class SubscriptionType(models.Model):
-#     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
-#     plan = models.ForeignKey(SubscriptionPlans, on_delete=models.CASCADE, null=True)
-#     price = models.IntegerField()
+class SubscriptionType(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    plan = models.ForeignKey(SubscriptionPlans, on_delete=models.CASCADE, null=True)
+    price = models.IntegerField()
     

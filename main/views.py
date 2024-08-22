@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType
 from .forms import LoginForm,CreateUserForm,EnquiryForms
 
 
@@ -146,14 +146,26 @@ def checkout_session(request, plan_id):
             'quantity': 1,
         }],
         mode='payment',
-        success_url='http://127.0.0.1:8000/Payment-Successfull',
+        success_url='http://127.0.0.1:8000/Payment-Successfull?session_id={CHECKOUT_SESSION_ID}',
         cancel_url='http://127.0.0.1:8000/Payment-Cancel',
+        client_reference_id=plan_id
     )
     
     return redirect(session.url, code=303)
 
 
 def payment_successfull(request):
+    session = stripe.checkout.Session.retrieve(request.GET['session_id'])
+    plan_id = session.client_reference_id
+    plan = SubscriptionPlans.objects.get(pk = plan_id)
+    user = request.user
+
+    SubscriptionType.objects.create(
+        plan = plan,
+        user = user,
+        price = plan.price
+        )
+    
     return render(request, 'success.html')
 
 
