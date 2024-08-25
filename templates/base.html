@@ -63,9 +63,9 @@
                 <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
                 <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
                 {% else %}
-
+                <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
                 <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="{% url 'update_profile' %}">Settings</a></li>
                 <li>
                   <form action="{% url 'logout' %}" method="POST">
                       {% csrf_token %}

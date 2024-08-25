@@ -83,6 +83,7 @@ class  SubscriptionPlans(models.Model):
     def __str__(self) -> str:
         return self.title
     
+
 # Above subscription types features
 class SubscriptionPlansFeatures(models.Model):
     subplan = models.ManyToManyField(SubscriptionPlans)
@@ -104,7 +105,7 @@ class Subscriber(models.Model):
 
     def image_tag(self):
         return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
-    
+
 
 # #The type of subscription done by user
 class SubscriptionType(models.Model):

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<main>
+    <section class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-5">
+                        <h2 class="text-center mb-4 section-heading border-bottom pb-3">Edit Profile</h2>
+                        <form method="post" action="{% url 'update_profile' %}">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+
+                            <div class="form-group mb-4">
+                                <label for="id_username" class="form-label">Username &nbsp; &nbsp;&nbsp;</label>
+                                {{ form.username }}
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="id_email" class="form-label">Email &nbsp; &nbsp;&nbsp;</label>
+                                    <div style="display:inline-block; margin-left: 32px;">
+                                        {{ form.email }}
+                                    </div>
+                            </div>
+
+                            <!-- <div class="form-group mb-4">
+                                <label for="id_password1" class="form-label">Password &nbsp; &nbsp;&nbsp;&nbsp;</label>
+                                {{ form.password }}
+                            </div> -->
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-warning btn-block">Confirm changes</button>
+                            </div>
+
+                            <br> Dont want to update anything? <a href ="{% url 'dashboard' %}" class ="text-decoration-none">Go Back</a>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}

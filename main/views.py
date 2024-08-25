@@ -1,10 +1,9 @@
 from django.shortcuts import redirect, render
 from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType
-from .forms import LoginForm,CreateUserForm,EnquiryForms
+from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm
 
 
 from django.urls import reverse_lazy
-# from django.contrib import auth
 from django.contrib.auth import authenticate,login
 from django.contrib import messages
 from django.contrib.auth.views import LoginView,LogoutView
@@ -89,17 +88,16 @@ def checkout(request,plan_id):
 class RegisterView(CreateView):
     form_class = CreateUserForm
     template_name = "register.html"
-    success_url = reverse_lazy('')
+    success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
         messages.success(self.request, "Account created successfully!")
         return super().form_valid(form)
 
-
 class CustomLoginView(LoginView):
     form_class = LoginForm
     template_name = 'login.html'
-    success_url = reverse_lazy('')
+    success_url = reverse_lazy('dashboard')
 
     def get_success_url(self):
         return self.success_url
@@ -127,9 +125,7 @@ class CustomLogoutView(LogoutView):
         return response
 
 
-
 stripe.api_key = 'sk_test_51Pqd0GRt8gmpf2hudaW3D1PiCofqvFGUZGJ1qSQ4KgNdmDtYyYwvFm4Bnuk5TB2r76Q5283Nwb5zSgwHpVibD3e400rpSqa9oY'
-
 def checkout_session(request, plan_id):
     plan = SubscriptionPlans.objects.get(pk=plan_id)
     
@@ -171,3 +167,21 @@ def payment_successfull(request):
 
 def payment_cancel(request):
     return render(request, 'cancel.html')
+
+
+# user functionalities
+def dashboard(request):
+    return render(request, 'user/dashboard.html')
+
+
+def update_profile(request):
+    if request.method == 'POST':
+        form = EditUserProfileForm(request.POST,instance = request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+    form = EditUserProfileForm(instance = request.user)
+
+    context = {'form': form}
+
+    return render(request, 'user/edit_profile.html',context)
