@@ -15,23 +15,42 @@
 
                             <div class="form-group mb-4">
                                 <label for="id_username" class="form-label">Username &nbsp; &nbsp;&nbsp;</label>
-                                {{ form.username }}
+                                <div style="display:inline-block; margin-left: 100px;">
+                                    {{ form.username }}
+                                </div>
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="id_email" class="form-label">Email &nbsp; &nbsp;&nbsp;</label>
-                                    <div style="display:inline-block; margin-left: 32px;">
+                                    <div style="display:inline-block; margin-left: 133px;">
                                         {{ form.email }}
                                     </div>
                             </div>
 
-                            <!-- <div class="form-group mb-4">
-                                <label for="id_password1" class="form-label">Password &nbsp; &nbsp;&nbsp;&nbsp;</label>
-                                {{ form.password }}
-                            </div> -->
+                            <div class="form-group mb-4">
+                                <label for="id_old_password" class="form-label">Old Password</label>
+                                <div style="display:inline-block; margin-left: 95px;">
+                                    {{ password_form.old_password }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="id_new_password1" class="form-label">New Password</label>
+                                <div style="display:inline-block; margin-left: 88px;">
+                                    {{ password_form.new_password1 }}
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="id_new_password2" class="form-label">Confirm New Password</label>
+                                <div style="display:inline-block; margin-left: 29px;">
+                                    {{ password_form.new_password2 }}
+                                </div>
+                            </div>
 
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-warning btn-block">Confirm changes</button>
+                                <button type="submit" class="btn btn-warning btn-block">Update</button>
                             </div>
 
                             <br> Dont want to update anything? <a href ="{% url 'dashboard' %}" class ="text-decoration-none">Go Back</a>

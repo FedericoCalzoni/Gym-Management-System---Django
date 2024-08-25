@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType
 from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 
 from django.urls import reverse_lazy
@@ -174,14 +176,42 @@ def dashboard(request):
     return render(request, 'user/dashboard.html')
 
 
+# def update_profile(request):
+#     if request.method == 'POST':
+#         form = EditUserProfileForm(request.POST,instance = request.user)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Profile updated successfully!")
+#     form = EditUserProfileForm(instance = request.user)
+
+#     context = {'form': form}
+
+#     return render(request, 'user/edit_profile.html',context)
+
 def update_profile(request):
     if request.method == 'POST':
-        form = EditUserProfileForm(request.POST,instance = request.user)
-        if form.is_valid():
-            form.save()
+        profile_form = EditUserProfileForm(request.POST, instance=request.user)
+        password_form = PasswordChangeForm(user=request.user, data=request.POST)
+        
+        if profile_form.is_valid() and password_form.is_valid():
+            profile_form.save()
+            password_form.save()
+            update_session_auth_hash(request, password_form.user)  # Keeps the user logged in after password change
+            messages.success(request, "Profile and password updated successfully!")
+        elif profile_form.is_valid():
+            profile_form.save()
             messages.success(request, "Profile updated successfully!")
-    form = EditUserProfileForm(instance = request.user)
-
-    context = {'form': form}
-
-    return render(request, 'user/edit_profile.html',context)
+        elif password_form.is_valid():
+            password_form.save()
+            update_session_auth_hash(request, password_form.user)
+            messages.success(request, "Password updated successfully!")
+    else:
+        profile_form = EditUserProfileForm(instance=request.user)
+        password_form = PasswordChangeForm(user=request.user)
+    
+    context = {
+        'form': profile_form,
+        'password_form': password_form,
+    }
+    
+    return render(request, 'user/edit_profile.html', context)
