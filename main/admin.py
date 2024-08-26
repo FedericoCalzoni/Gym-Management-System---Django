@@ -62,4 +62,11 @@ class SubscriptionTypeAdmin(admin.ModelAdmin):
 admin.site.register(models.SubscriptionType, SubscriptionTypeAdmin)
 
 
+class TrainerAdmin(admin.ModelAdmin):
+    list_editable = ('is_active',)
+    list_display = ('full_name','mobile','is_active','image_tag')
+    
+admin.site.register(models.Trainer, TrainerAdmin)
+
+
 

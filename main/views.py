@@ -176,18 +176,6 @@ def dashboard(request):
     return render(request, 'user/dashboard.html')
 
 
-# def update_profile(request):
-#     if request.method == 'POST':
-#         form = EditUserProfileForm(request.POST,instance = request.user)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Profile updated successfully!")
-#     form = EditUserProfileForm(instance = request.user)
-
-#     context = {'form': form}
-
-#     return render(request, 'user/edit_profile.html',context)
-
 def update_profile(request):
     if request.method == 'POST':
         profile_form = EditUserProfileForm(request.POST, instance=request.user)

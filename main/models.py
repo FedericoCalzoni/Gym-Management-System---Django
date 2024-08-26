@@ -113,3 +113,18 @@ class SubscriptionType(models.Model):
     plan = models.ForeignKey(SubscriptionPlans, on_delete=models.CASCADE, null=True)
     price = models.IntegerField()
     
+
+class Trainer(models.Model):
+    full_name = models.CharField(max_length=50)
+    mobile = models.IntegerField()
+    address = models.TextField()
+    is_active = models.BooleanField(default=False)
+    details = models.TextField()
+    img = models.ImageField(upload_to="trainers")
+
+    def __str__(self) -> str:
+        return self.full_name
+    
+    def image_tag(self):
+        if self.img:
+            return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
