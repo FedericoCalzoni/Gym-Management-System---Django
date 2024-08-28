@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType
-from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer
+from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
@@ -203,3 +203,30 @@ def update_profile(request):
     }
     
     return render(request, 'user/edit_profile.html', context)
+
+
+def trainer_login(request):
+
+    msg= ''
+    if(request.method == 'POST'):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        trainer = Trainer.objects.filter(username=username, password=password).count()
+        if(trainer >0):
+            request.session['trainer_login'] =True
+            return redirect('dashboard')
+
+        else:
+            messages.error(request,'Invalid username or password!')
+
+    form = TrainerLoginForm
+    context = {'form':form,'msg':msg}
+
+    return render(request, 'trainer/login.html',context)
+
+
+def trainer_logout(request):
+    del request.session['trainer_login']
+    messages.success(request,'Logged out successfully!')
+    return redirect('trainer_login')

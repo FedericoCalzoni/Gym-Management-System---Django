@@ -116,6 +116,8 @@ class SubscriptionType(models.Model):
 
 class Trainer(models.Model):
     full_name = models.CharField(max_length=50)
+    username = models.CharField(max_length=50,null=True)
+    password = models.CharField(max_length=50,null=True)
     mobile = models.IntegerField()
     address = models.TextField()
     is_active = models.BooleanField(default=False)

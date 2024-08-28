@@ -2,7 +2,7 @@ from django import forms
 from .import models
 
 from django.contrib.auth.forms import AuthenticationForm,UserCreationForm,UserChangeForm,PasswordChangeForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
 
 class EnquiryForms(forms.ModelForm):
     class Meta:
@@ -32,3 +32,12 @@ class EditUserPasswordForm(PasswordChangeForm):
     class Meta:
         model = User
         fields = ['old_password', 'new_password1', 'new_password2']
+
+
+class TrainerLoginForm(forms.ModelForm):
+    class Meta:
+        model = models.Trainer
+        fields = ['username', 'password']
+        widgets = {
+            'password': forms.PasswordInput(attrs={'placeholder': 'Password'}),
+        }

@@ -60,8 +60,15 @@
               <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
 
                 {% if not user.is_authenticated %}
-                <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-                <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                  {% if request.session.trainer_login%}
+                  <li><a class="dropdown-item" href="{% url 'trainer_logout' %}">Logout</a></li>
+
+                  {% else %}
+                  <li><a class="dropdown-item" href="{% url 'trainer_login' %}">Trainer login</a></li>
+                  <li><a class="dropdown-item" href="{% url 'login' %}">User login</a></li>
+                  <li><a class="dropdown-item" href="{% url 'register' %}">User register</a></li>
+                  {% endif %}
+
                 {% else %}
                 <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
                 <li><a class="dropdown-item" href="#">Profile</a></li>

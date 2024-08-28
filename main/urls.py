@@ -23,6 +23,8 @@ urlpatterns = [
     path('Checkout/<int:plan_id>', views.checkout_session,name= 'checkout_session'), 
     path('Payment-Successfull', views.payment_successfull,name= 'payment_successfull'), 
     path('Payment-Cancel', views.payment_cancel,name= 'payment_cancel'), 
+    path('Trainer-Login', views.trainer_login,name= 'trainer_login'), 
+    path('Trainer-Logout', views.trainer_logout,name= 'trainer_logout'), 
 
 
 ]+static(settings.MEDIA_URL,document_root = MEDIA_ROOT)
