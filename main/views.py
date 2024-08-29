@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify
 from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -230,3 +230,10 @@ def trainer_logout(request):
     del request.session['trainer_login']
     messages.success(request,'Logged out successfully!')
     return redirect('trainer_login')
+
+
+def notifications(request):
+    notifications = Notify.objects.all().order_by('-id')
+    context = {'notifications':notifications}
+
+    return render(request, 'notifications.html', context)

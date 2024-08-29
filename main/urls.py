@@ -25,6 +25,7 @@ urlpatterns = [
     path('Payment-Cancel', views.payment_cancel,name= 'payment_cancel'), 
     path('Trainer-Login', views.trainer_login,name= 'trainer_login'), 
     path('Trainer-Logout', views.trainer_logout,name= 'trainer_logout'), 
+    path('Notifications', views.notifications,name= 'notifications'), 
 
 
 ]+static(settings.MEDIA_URL,document_root = MEDIA_ROOT)

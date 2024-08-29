@@ -130,3 +130,12 @@ class Trainer(models.Model):
     def image_tag(self):
         if self.img:
             return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
+        
+
+class Notify(models.Model):
+    notify_detail = models.TextField()
+    read_by_user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
+    read_by_trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True,blank=True)
+
+    def __str__(self) ->str:
+        return self.notify_detail
