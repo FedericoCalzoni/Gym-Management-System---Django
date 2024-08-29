@@ -4,12 +4,14 @@ from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,Tra
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
-
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate,login
 from django.contrib import messages
 from django.contrib.auth.views import LoginView,LogoutView
 from django.views.generic import CreateView
+
+from django.core import serializers
+from django.http import JsonResponse
 
 import stripe
 
@@ -237,3 +239,10 @@ def notifications(request):
     context = {'notifications':notifications}
 
     return render(request, 'notifications.html', context)
+
+
+def get_notifications(request):
+    notifications = Notify.objects.all().order_by('-id')
+    jsonData = serializers.serialize('json', notifications)
+
+    return JsonResponse({'notifications':jsonData})
