@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber
 
 from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm
 from django.contrib.auth.forms import PasswordChangeForm
@@ -176,7 +176,39 @@ def payment_cancel(request):
 
 # user functionalities
 def dashboard(request):
-    return render(request, 'user/dashboard.html')
+    try:
+        current_plan = SubscriptionType.objects.get(user=request.user)
+        current_trainer = AssignSubscriber.objects.get(subscriber=current_plan)
+
+    except SubscriptionType.DoesNotExist:
+        current_plan = None
+        current_trainer = None
+
+    except AssignSubscriber.DoesNotExist:
+        current_trainer = None
+
+    #to get total count of un read notifications
+    notifications = Notify.objects.all().order_by('-id')
+    notifStatus = False
+    total_unread = 0
+
+    for d in notifications:
+        try:
+            notifStatusData = NotifUserStatus.objects.filter(user=request.user,notif= d).first()
+
+            if notifStatusData:
+                notifStatus = True
+
+        except NotifUserStatus.DoesNotExist:
+            notifStatus = False
+
+        if not notifStatus:
+            total_unread+=1
+ 
+    context= {'current_plan': current_plan,'current_trainer': current_trainer,'total_unread': total_unread}
+ 
+
+    return render(request, 'user/dashboard.html',context)
 
 
 def update_profile(request):

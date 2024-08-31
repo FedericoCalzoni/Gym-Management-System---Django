@@ -93,7 +93,7 @@ class SubscriptionPlansFeatures(models.Model):
         return self.title
     
 
-# # The person to subscribe to a subscription Plan
+# The person to subscribe to a subscription Plan
 class Subscriber(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     mobile = models.CharField()
@@ -112,6 +112,9 @@ class SubscriptionType(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     plan = models.ForeignKey(SubscriptionPlans, on_delete=models.CASCADE, null=True)
     price = models.IntegerField()
+
+    def __str__(self):
+        return str(self.user.username)
     
 
 class Trainer(models.Model):
@@ -145,3 +148,11 @@ class NotifUserStatus(models.Model):
     notif = models.ForeignKey(Notify, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
+
+# Assign a subscriber to the trainer
+class AssignSubscriber(models.Model):
+    subscriber = models.ForeignKey(SubscriptionType, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return str(self.subscriber)
