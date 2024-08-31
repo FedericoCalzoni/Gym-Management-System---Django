@@ -131,7 +131,7 @@ class Trainer(models.Model):
         if self.img:
             return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
         
-
+# Notifications and response via ajax
 class Notify(models.Model):
     notify_detail = models.TextField()
     read_by_user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
@@ -139,3 +139,9 @@ class Notify(models.Model):
 
     def __str__(self) ->str:
         return self.notify_detail
+    
+# Mark as read notifications by user
+class NotifUserStatus(models.Model):
+    notif = models.ForeignKey(Notify, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)

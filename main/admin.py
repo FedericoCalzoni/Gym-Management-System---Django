@@ -75,3 +75,12 @@ class NotifyAdmin(admin.ModelAdmin):
 admin.site.register(models.Notify, NotifyAdmin)
 
 
+class NotifUserStatusAdmin(admin.ModelAdmin):
+    list_display = ('notif','user','status')
+    
+    class Meta:
+        unique_together = ('notif', 'user')
+admin.site.register(models.NotifUserStatus, NotifUserStatusAdmin)
+
+
+

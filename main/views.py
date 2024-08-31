@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus
+
 from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -240,9 +241,38 @@ def notifications(request):
 
     return render(request, 'notifications.html', context)
 
-
+#Open all notifications
 def get_notifications(request):
     notifications = Notify.objects.all().order_by('-id')
-    jsonData = serializers.serialize('json', notifications)
+    notifStatus = False
+    jsonData = []
+    total_unread = 0
 
-    return JsonResponse({'notifications':jsonData})
+    for d in notifications:
+        try:
+            notifStatusData = NotifUserStatus.objects.filter(user=request.user,notif= d).first()
+
+            if notifStatusData:
+                notifStatus = True
+
+        except NotifUserStatus.DoesNotExist:
+            notifStatus = False
+
+        if not notifStatus:
+            total_unread+=1
+
+        jsonData.append({
+            'pk':d.id,
+            'notify_detail':d.notify_detail,
+            'notifStatus':notifStatus
+        })
+
+    return JsonResponse({'notifications':jsonData,'total_unread':total_unread})
+
+# Mark as read By user
+def mark_read_notifications(request):
+    notifications = request.GET['notifications']
+    notifications = Notify.objects.get(pk=notifications)
+    user = request.user
+    NotifUserStatus.objects.create(notif= notifications,user=user,status=True)    
+    return JsonResponse({'bool':True})

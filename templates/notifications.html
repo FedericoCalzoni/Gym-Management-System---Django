@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+<style type="text/css">
+    .marked{
+        display:none;
+    }
+</style>
+
 <main>
     <!-- Services -->
     <section class="container my-4">
@@ -15,22 +22,13 @@
             </div>
 
             <div class="col-9">
-                <h3 class="mb-4 border-bottom pb-1">Notifications <span class="badge bg-primary">123</span></h3>
+                <h3 class="mb-4 border-bottom pb-1">Notifications <span class="badge bg-primary total_unread">123</span></h3>
 
                 <span class="ajaxRes"> 
 
                 </span>
 
                 <ul class="list-group notif-list">
-                    <!-- <li class="list-group-item bg-light">
-                        This is a notification 1
-                        <button class="btn btn-sm btn-secondary float-end">Mark as read</button>
-                    </li>
-                    <li class="list-group-item">
-                        This is a notification 2
-                        <i class="bi bi-check2-square text-success float-end"></i>
-                    </li> -->
-                    Loading...
                 </ul>
 
 
@@ -53,14 +51,19 @@
                 dataType:'json',
                 beforeSend:function(){
                     $(".ajaxRes").show();
-                    $(".ajaxRes").text('loading...');
                 },
                 success:function(res){
                     _html='';
-                    _json= $.parseJSON(res.notifications);
-                    $.each(_json,function(index,d){
 
-                        _html += '<li class="list-group-item bg-light">' +d.fields.notify_detail+'<button class="btn btn-sm btn-secondary float-end">Mark as read</button></li>';
+                    $(".total_unread").text(res.total_unread);
+
+                    $.each(res.notifications,function(index,d){
+
+                        if(d.notifStatus==true){
+							_html+='<li class="list-group-item list'+d.pk+'">'+d.notify_detail+'<button data-index="'+d.pk+'" data-notifications="'+d.pk+'" class="btn btn-sm btn-secondary float-end markreadbtn markreadbtn'+d.pk+'"" style="display:none;">Mark as read</button><button class="float-end btn btn-success btn-sm marked'+d.pk+'"><i class="bi bi-check-square"></i></button></li>';
+						}else{
+							_html+='<li class="list-group-item bg-light list'+d.pk+'">'+d.notify_detail+'<button data-index="'+d.pk+'" data-notifications="'+d.pk+'" class="btn btn-sm btn-secondary float-end markreadbtn markreadbtn'+d.pk+'"">Mark as read</button><button class="float-end btn btn-success btn-sm marked marked'+d.pk+'"><i class="bi bi-check-square"></i></button></li>';
+						}
 
                     });
                     $(".notif-list").html(_html);
@@ -68,6 +71,35 @@
                 }
             });
         },5000);
+
+        // Mark as read Section start
+
+        $(document).on("click",".markreadbtn",function(){
+            var _index = $(this).attr("data-index");
+            var _notifications = $(this).attr("data-notifications");
+
+            $.ajax({
+                url:"{% url 'mark_read_notifications' %}",
+                data:{
+                    notifications: _notifications
+                },
+                beforeSend:function(){
+                   
+                },
+
+                success:function(res){
+                    if(res.bool == true){
+                        $(".list"+_index).removeClass('bg-light');
+                        $(".markreadbtn"+_index).hide();
+                        $(".marked"+_index).show();
+  
+                    }
+                }
+            });
+        });
+
+        // End
+
     });
 </script>
 

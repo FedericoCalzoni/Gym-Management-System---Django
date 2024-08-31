@@ -37,6 +37,7 @@ urlpatterns = [
     # Notifications
     path('Notifications', views.notifications,name= 'notifications'), 
     path('Get-Notifications', views.get_notifications,name= 'get_notifications'), 
+    path('mark_read_notifications', views.mark_read_notifications,name= 'mark_read_notifications'), 
 
 
 ]+static(settings.MEDIA_URL,document_root = MEDIA_ROOT)
