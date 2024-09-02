@@ -57,7 +57,7 @@ admin.site.register(models.Subscriber, SubscriberAdmin)
 
 
 class SubscriptionTypeAdmin(admin.ModelAdmin):
-    list_display = ('user','plan','price')
+    list_display = ('user','plan','price','reg_date')
     
 admin.site.register(models.SubscriptionType, SubscriptionTypeAdmin)
 

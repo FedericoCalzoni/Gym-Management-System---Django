@@ -108,11 +108,12 @@ class Subscriber(models.Model):
         return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
 
 
-# #The type of subscription done by user
+# while doing the subscription
 class SubscriptionType(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     plan = models.ForeignKey(SubscriptionPlans, on_delete=models.CASCADE, null=True)
     price = models.IntegerField()
+    reg_date = models.DateField(auto_now_add=True,null=True)
 
     def __str__(self):
         return str(self.user.username)

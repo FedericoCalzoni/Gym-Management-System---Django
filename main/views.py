@@ -13,6 +13,7 @@ from django.views.generic import CreateView
 
 from django.http import JsonResponse
 from django.db.models import Count
+from datetime import timedelta
 
 import stripe
 
@@ -179,6 +180,7 @@ def dashboard(request):
     try:
         current_plan = SubscriptionType.objects.get(user=request.user)
         current_trainer = AssignSubscriber.objects.get(subscriber=current_plan)
+        end_date = current_plan.reg_date+timedelta(days = current_plan.plan.validity)
 
     except SubscriptionType.DoesNotExist:
         current_plan = None
@@ -205,7 +207,7 @@ def dashboard(request):
         if not notifStatus:
             total_unread+=1
  
-    context= {'current_plan': current_plan,'current_trainer': current_trainer,'total_unread': total_unread}
+    context= {'current_plan': current_plan,'current_trainer': current_trainer,'total_unread': total_unread,'end_date':end_date}
  
 
     return render(request, 'user/dashboard.html',context)
