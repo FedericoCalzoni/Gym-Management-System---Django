@@ -7,6 +7,10 @@ class Banners(models.Model):
     img = models.ImageField(upload_to="banners")
     alt_text = models.CharField(max_length=100)
 
+
+    class Meta:
+        verbose_name_plural = 'Banners'
+
     def __str__(self) -> str:
         return self.alt_text
     
@@ -66,6 +70,10 @@ class GalleryImages(models.Model):
     alt_text = models.CharField(max_length=50)
     img = models.ImageField(upload_to="gallery_imgs")
 
+
+    class Meta:
+        verbose_name_plural = 'Gallery Images'
+
     def __str__(self) -> str:
         return self.alt_text
     
@@ -81,6 +89,9 @@ class  SubscriptionPlans(models.Model):
     highlight_status = models.BooleanField(default=False,null=True)
     validity = models.IntegerField(null=True)
 
+    class Meta:
+        verbose_name_plural = 'Subscription Plans'
+    
     def __str__(self) -> str:
         return self.title
     
@@ -90,6 +101,9 @@ class SubscriptionPlansFeatures(models.Model):
     subplan = models.ManyToManyField(SubscriptionPlans)
     title = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name_plural = 'Subscription Plans Features'
+    
     def __str__(self) -> str:
         return self.title
     
