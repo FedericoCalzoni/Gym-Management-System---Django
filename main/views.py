@@ -11,8 +11,8 @@ from django.contrib import messages
 from django.contrib.auth.views import LoginView,LogoutView
 from django.views.generic import CreateView
 
-from django.core import serializers
 from django.http import JsonResponse
+from django.db.models import Count
 
 import stripe
 
@@ -76,7 +76,7 @@ def gallery_photos(request,id):
 
 def pricing(request):
 
-    pricing = SubscriptionPlans.objects.all().order_by('price')
+    pricing = SubscriptionPlans.objects.annotate(registered_members = Count('subscriptiontype__id')).all().order_by('price')
     distinct_features = SubscriptionPlansFeatures.objects.all()
     context = {'pricing':pricing,'distinct_features':distinct_features}
 

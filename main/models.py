@@ -79,6 +79,7 @@ class  SubscriptionPlans(models.Model):
     price = models.IntegerField()
     max_members = models.IntegerField(null=True)
     highlight_status = models.BooleanField(default=False,null=True)
+    validity = models.IntegerField(null=True)
 
     def __str__(self) -> str:
         return self.title

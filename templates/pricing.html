@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{% load mathfilters %}
 
 <section class="container my-4">
     <h1 class="text-center mb-4 section-heading border-bottom pb-2">Subscription Plans</h1>
@@ -24,10 +25,10 @@
 
         
       <div class="card-body">
-        <h1 class="card-title pricing-card-title">${{pricings.price}}
-          <small class="text-muted fw-light">/mo</small>
+        <h1 class="card-title pricing-card-title">${{pricings.price}} 
+          <small class="text-muted fw-light"> / {{pricings.validity}} days</small>
         </h1>
-        <p class="text-success">Maximum capacity: <b>{{pricings.max_members}}</b></p>
+        <p class="text-success">Maximum capacity: <b>{{pricings.max_members|sub:pricings.registered_members}}</b></p>
         <ul class="list-unstyled mt-3 mb-4">
 
           {% for features in pricings.subscriptionplansfeatures_set.all %}

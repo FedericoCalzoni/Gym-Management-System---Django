@@ -38,7 +38,7 @@ admin.site.register(models.GalleryImages,GalleryImageAdmin)
 
 class SubscriptionPlansAdmin(admin.ModelAdmin):
     list_editable = ('highlight_status','max_members')
-    list_display = ('title','price','max_members','highlight_status')
+    list_display = ('title','price','max_members','validity','highlight_status')
 admin.site.register(models.SubscriptionPlans, SubscriptionPlansAdmin)
 
 
