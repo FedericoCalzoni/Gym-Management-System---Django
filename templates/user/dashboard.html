@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<style>
+    .trainer-img {
+    width: 300px;  
+    height: auto;  
+    margin-left: 3%;
+    padding-top: 10px;
+}
+.card-footer {
+        display: flex;
+        gap: 15px; /* Adjust the value to control the space between icons */
+    }
+</style>
+
 <main>
+    
     <!-- Services -->
     <section class="container my-4">
 
@@ -21,7 +35,7 @@
 
                 <div class="row">
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         {% if current_plan %}
                         <div class="card">
                             <h5 class="card-header">Current package</h5>
@@ -49,15 +63,22 @@
                     </div>
 
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
 
                         {% if current_trainer %}
                             <div class="card">
                                 <h5 class="card-header">My Trainer</h5>
+                                <img src="{{current_trainer.trainer.img.url}}" class="card-img-top trainer-img" alt="{{ current_trainer.trainer.full_name }}">
                                 <div class="card-body">
                                     <h6 class="card-text">{{ current_trainer.trainer.full_name }}</h6>
-                                    <p>Details: {{ current_trainer.trainer.details }} </p>
                                 </div>
+
+                                <div class="card-footer">
+                                    <a href="{{social_links.facebook}}" title="Facebook"><i class="bi bi-facebook fs-3"></i></a>
+                                    <a href="{{social_links.twitter}}" title="Twitter"><i class="bi bi-twitter fs-3"></i></a>
+                                    <a href="{{social_links.linkedin}}" title="Linkedin"><i class="bi bi-linkedin fs-3"></i></a>
+                                </div>
+
                             </div>
                         {% else %}
                             <div class="card">

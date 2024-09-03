@@ -142,6 +142,8 @@ class Trainer(models.Model):
     is_active = models.BooleanField(default=False)
     details = models.TextField()
     img = models.ImageField(upload_to="trainers")
+    social_links = models.JSONField(blank=True,null=True)
+    
 
     def __str__(self) -> str:
         return self.full_name
@@ -164,6 +166,9 @@ class NotifUserStatus(models.Model):
     notif = models.ForeignKey(Notify, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = 'Notifications Status'
 
 # Assign a subscriber to the trainer
 class AssignSubscriber(models.Model):

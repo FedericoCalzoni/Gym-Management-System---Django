@@ -182,12 +182,16 @@ def dashboard(request):
         current_trainer = AssignSubscriber.objects.get(subscriber=current_plan)
         end_date = current_plan.reg_date+timedelta(days = current_plan.plan.validity)
 
+        social_links = current_trainer.trainer.social_links if current_trainer else {}
+
     except SubscriptionType.DoesNotExist:
         current_plan = None
         current_trainer = None
+        social_links = {}
 
     except AssignSubscriber.DoesNotExist:
         current_trainer = None
+        social_links = {}
 
     #to get total count of un read notifications
     notifications = Notify.objects.all().order_by('-id')
@@ -207,7 +211,7 @@ def dashboard(request):
         if not notifStatus:
             total_unread+=1
  
-    context= {'current_plan': current_plan,'current_trainer': current_trainer,'total_unread': total_unread,'end_date':end_date}
+    context= {'current_plan': current_plan,'current_trainer': current_trainer,'total_unread': total_unread,'end_date':end_date,'social_links':social_links}
  
 
     return render(request, 'user/dashboard.html',context)
