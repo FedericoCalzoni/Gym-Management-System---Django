@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements
 
 from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm
 from django.contrib.auth.forms import PasswordChangeForm
@@ -183,6 +183,7 @@ def dashboard(request):
         end_date = current_plan.reg_date+timedelta(days = current_plan.plan.validity)
 
         social_links = current_trainer.trainer.social_links if current_trainer else {}
+        achievements = TrainerAcheivements.objects.filter(trainer=current_trainer.trainer)
 
     except SubscriptionType.DoesNotExist:
         current_plan = None
@@ -211,7 +212,7 @@ def dashboard(request):
         if not notifStatus:
             total_unread+=1
  
-    context= {'current_plan': current_plan,'current_trainer': current_trainer,'total_unread': total_unread,'end_date':end_date,'social_links':social_links}
+    context= {'current_plan': current_plan,'current_trainer': current_trainer,'total_unread': total_unread,'end_date':end_date,'social_links':social_links,'achievements':achievements}
  
 
     return render(request, 'user/dashboard.html',context)

@@ -152,6 +152,22 @@ class Trainer(models.Model):
         if self.img:
             return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
         
+
+class TrainerAcheivements(models.Model):
+    trainer = models.ForeignKey(Trainer,on_delete=models.CASCADE)
+    title = models.CharField(max_length=100) 
+    date_awarded = models.DateField()  
+    description = models.TextField(max_length=300, blank=True) 
+    badge_image = models.ImageField(upload_to='achievement_badges/', blank=True)
+
+    def __str__(self) -> str:
+        return self.title
+    
+    def image_tag(self):
+        if self.badge_image:
+            return mark_safe('<img src="%s" width ="80"/>' %(self.badge_image.url))
+
+
 # Notifications and response via ajax
 class Notify(models.Model):
     notify_detail = models.TextField()

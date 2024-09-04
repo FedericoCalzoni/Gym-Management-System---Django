@@ -89,4 +89,10 @@ class AssignSubscriberAdmin(admin.ModelAdmin):
 admin.site.register(models.AssignSubscriber, AssignSubscriberAdmin)
 
 
+class TrainerAcheivementsAdmin(admin.ModelAdmin):
+    list_display = ('trainer','title','date_awarded','description','image_tag')
+    
+admin.site.register(models.TrainerAcheivements, TrainerAcheivementsAdmin)
+
+
 

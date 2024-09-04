@@ -10,7 +10,7 @@
 }
 .card-footer {
         display: flex;
-        gap: 15px; /* Adjust the value to control the space between icons */
+        gap: 24px; /* Adjust the value to control the space between icons */
     }
 </style>
 
@@ -70,13 +70,63 @@
                                 <h5 class="card-header">My Trainer</h5>
                                 <img src="{{current_trainer.trainer.img.url}}" class="card-img-top trainer-img" alt="{{ current_trainer.trainer.full_name }}">
                                 <div class="card-body">
-                                    <h6 class="card-text">{{ current_trainer.trainer.full_name }}</h6>
+                                    <h6 class="card-text"><b>{{ current_trainer.trainer.full_name }}</b></h6>
                                 </div>
 
                                 <div class="card-footer">
                                     <a href="{{social_links.facebook}}" title="Facebook"><i class="bi bi-facebook fs-3"></i></a>
                                     <a href="{{social_links.twitter}}" title="Twitter"><i class="bi bi-twitter fs-3"></i></a>
                                     <a href="{{social_links.linkedin}}" title="Linkedin"><i class="bi bi-linkedin fs-3"></i></a>
+                                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" title="Acheivements" class="btn btn-primary btn-sm ms-auto "><i class="bi bi-trophy-fill "></i></button>
+
+                                    <!-- modal for Acheivements -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title ms-auto" id="exampleModalLabel">{{ current_trainer.trainer.full_name }} Acheivements</h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                              <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th >Title</th>
+                                                            <th>Date Awarded</th>
+                                                            <th>Details</th>
+                                                            <th>Image</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        {% for achievement in achievements %}
+                                                            <tr>
+                                                                <td>{{ achievement.title }}</td>
+                                                                <td>{{ achievement.date_awarded}}</td>
+                                                                <td>{{ achievement.description }}</td>
+                                                                <td>
+                                                                    {% if achievement.badge_image %}
+                                                                        <img src="{{ achievement.badge_image.url }}" width="80" alt="{{ achievement.title }}">
+                                                                    {% else %}
+                                                                        No image available
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                              </table>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <!-- modal end -->
+
                                 </div>
 
                             </div>
