@@ -143,6 +143,7 @@ class Trainer(models.Model):
     details = models.TextField()
     img = models.ImageField(upload_to="trainers")
     social_links = models.JSONField(blank=True,null=True)
+    month_salary = models.IntegerField(null=True)
     
 
     def __str__(self) -> str:
@@ -167,6 +168,16 @@ class TrainerAcheivements(models.Model):
         if self.badge_image:
             return mark_safe('<img src="%s" width ="80"/>' %(self.badge_image.url))
 
+'''
+class TrainerSalary(models.Model):
+    trainer = models.ForeignKey(Trainer,on_delete=models.CASCADE)
+    amount = models.IntegerField()
+    deposit_date = models.DateTimeField()
+    remarks = models.TextField(blank=True)
+
+    def __str__(self) -> str:
+        return self.amount
+'''
 
 # Notifications and response via ajax
 class Notify(models.Model):
