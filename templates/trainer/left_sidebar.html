@@ -1,0 +1,18 @@
+<style>
+    .list-group {
+    margin-top: 0; /* Ensure consistent margin */
+}
+.left-sidebar {
+    position: sticky;
+    top: 0;
+}
+</style>
+
+<div class="list-group ">
+    <a href="{% url 'trainer_dashboard' %}" class="list-group-item {% if request.path == '/Trainer-Dashboard' %} active {% endif %}">Dashboard</a>
+    <a href="#" class="list-group-item">My subscribers</a>
+    <a href="#" class="list-group-item">Payments</a>
+    <a href="#" class="list-group-item">Messages <span class="float-end badge bg-info mt-1">123</span></a>
+    <a href="#" class="list-group-item">Notifications <span class="float-end badge bg-info mt-1">123</span></a>
+    <a href="{% url 'trainer_edit_profile' %}" class="list-group-item {% if request.path == '/Account-Settings' %} active {% endif %}">Settings</a>
+</div>

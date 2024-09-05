@@ -41,3 +41,17 @@ class TrainerLoginForm(forms.ModelForm):
         widgets = {
             'password': forms.PasswordInput(attrs={'placeholder': 'Password'}),
         }
+
+class EditTrainerProfileForm(UserChangeForm):
+    class Meta:
+        model = models.Trainer
+        fields = ['full_name','mobile','address','details','img']
+
+
+class EditTrainerPasswordForm(PasswordChangeForm):
+    class Meta:
+        model = models.Trainer
+        fields = ['old_password', 'new_password1', 'new_password2']
+        widgets = {
+            'password': forms.PasswordInput(attrs={'placeholder': 'Password'}),
+        }

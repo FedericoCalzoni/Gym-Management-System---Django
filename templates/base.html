@@ -71,8 +71,8 @@
 
                 {% else %}
                 <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="{% url 'update_profile' %}">Settings</a></li>
+                <!-- <li><a class="dropdown-item" href="#">Profile</a></li>  -->
+                <!-- <li><a class="dropdown-item" href="{% url 'update_profile' %}">Settings</a></li> -->
                 <li>
                   <form action="{% url 'logout' %}" method="POST">
                       {% csrf_token %}

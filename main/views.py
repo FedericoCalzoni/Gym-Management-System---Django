@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements
 
-from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm
+from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm,EditTrainerProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
@@ -247,33 +247,6 @@ def update_profile(request):
     return render(request, 'user/edit_profile.html', context)
 
 
-def trainer_login(request):
-
-    msg= ''
-    if(request.method == 'POST'):
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        trainer = Trainer.objects.filter(username=username, password=password).count()
-        if(trainer >0):
-            request.session['trainer_login'] =True
-            return redirect('dashboard')
-
-        else:
-            messages.error(request,'Invalid username or password!')
-
-    form = TrainerLoginForm
-    context = {'form':form,'msg':msg}
-
-    return render(request, 'trainer/login.html',context)
-
-
-def trainer_logout(request):
-    del request.session['trainer_login']
-    messages.success(request,'Logged out successfully!')
-    return redirect('trainer_login')
-
-
 def notifications(request):
     notifications = Notify.objects.all().order_by('-id')
     context = {'notifications':notifications}
@@ -315,3 +288,59 @@ def mark_read_notifications(request):
     user = request.user
     NotifUserStatus.objects.create(notif= notifications,user=user,status=True)    
     return JsonResponse({'bool':True})
+
+
+# Trainer logic
+def trainer_login(request):
+
+    msg= ''
+    if(request.method == 'POST'):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        trainer = Trainer.objects.filter(username=username, password=password).first()
+        if(trainer):
+            request.session['trainer_login'] =True
+            request.session['trainerid'] =trainer.id
+            return redirect('trainer_dashboard')
+
+        else:
+            messages.error(request,'Invalid username or password!')
+
+    form = TrainerLoginForm
+    context = {'form':form,'msg':msg}
+
+    return render(request, 'trainer/login.html',context)
+
+
+def trainer_logout(request):
+    del request.session['trainer_login']
+    messages.success(request,'Logged out successfully!')
+    return redirect('trainer_login')
+
+
+def trainer_dashboard(request):
+    if not request.session.get('trainer_login'):
+        return redirect('trainer_login')
+    return render(request, 'trainer/dashboard.html')
+
+
+def trainer_edit_profile(request):
+
+    t_id = request.session['trainerid'] 
+    trainer = Trainer.objects.get(id=t_id)
+    
+    if request.method == 'POST':
+        form = EditTrainerProfileForm(request.POST,request.FILES,instance = trainer)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Changes were saved successfully!')
+
+    form = EditTrainerProfileForm(instance = trainer)
+    
+    context = {
+        'form': form,
+    }
+    
+    return render(request, 'trainer/edit_profile.html',context)
