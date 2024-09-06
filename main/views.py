@@ -15,6 +15,7 @@ from django.http import JsonResponse
 from django.db.models import Count
 from datetime import timedelta
 
+from django.contrib.auth.decorators import login_required
 import stripe
 
 def home(request):
@@ -176,6 +177,7 @@ def payment_cancel(request):
 
 
 # user functionalities
+login_required(login_url='login')
 def dashboard(request):
     try:
         current_plan = SubscriptionType.objects.get(user=request.user)
@@ -189,6 +191,8 @@ def dashboard(request):
         current_plan = None
         current_trainer = None
         social_links = {}
+        end_date = None
+        achievements = None
 
     except AssignSubscriber.DoesNotExist:
         current_trainer = None
@@ -344,3 +348,11 @@ def trainer_edit_profile(request):
     }
     
     return render(request, 'trainer/edit_profile.html',context)
+
+
+def trainer_assigned_subscribers(request):
+    trainer = Trainer.objects.get(pk=request.session['trainerid'])
+    trainer_subscribers = AssignSubscriber.objects.filter(trainer = trainer).order_by('-id')
+
+    context = {'trainer_subscribers': trainer_subscribers}
+    return render(request, 'trainer/assigned_subscribers.html',context)

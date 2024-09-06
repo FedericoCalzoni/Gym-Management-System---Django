@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<main>
+    <section class="container my-4">
+        <div class="row">
+            <!-- Left Sidebar -->
+            <div class="col-lg-3 col-md-3">
+                {% include 'trainer/left_sidebar.html' %}
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-9">
+                <h2 class="text-center mb-4 section-heading border-bottom pb-3">My Subscribers</h2>
+
+                <div class="row">
+                    {% for ts in trainer_subscribers %}
+                    <div class="col-md-6">
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body d-flex align-items-center">
+                                <!-- <div class="avatar rounded-circle mr-3" style="width: 50px; height: 50px; background-color: #f0f0f0;">
+                                    {{ts.subscriber.user.img.url}}
+                                </div> -->
+                                <h5 class="mb-0">{{ ts.subscriber|capfirst  }}</h5>
+                                <button data-bs-toggle="modal" data-bs-target="#exampleModal" title="Info" class="btn  btn-sm ms-auto fs-5"><i class="bi bi-info-circle"></i></button>
+
+                                <!-- Modal start -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-md">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title ms-auto" id="exampleModalLabel">{{ ts.subscriber|capfirst  }} Details</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                          <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Plan</th>
+                                                        <th>Price</th>
+                                                        <th>Registration Date</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                        <tr>
+                                                            <td>{{ ts.subscriber.plan }}</td>
+                                                            <td>{{ ts.subscriber.price}} $</td>
+                                                            <td>{{ ts.subscriber.reg_date }}</td>
+                                                        </tr>
+                                                </tbody>
+                                          </table>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- modal end -->
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div> <!-- End of row -->
+
+    </section>
+</main>
+
+{% endblock %}

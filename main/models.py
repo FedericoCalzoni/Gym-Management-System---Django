@@ -7,7 +7,6 @@ class Banners(models.Model):
     img = models.ImageField(upload_to="banners")
     alt_text = models.CharField(max_length=100)
 
-
     class Meta:
         verbose_name_plural = 'Banners'
 
@@ -70,7 +69,6 @@ class GalleryImages(models.Model):
     alt_text = models.CharField(max_length=50)
     img = models.ImageField(upload_to="gallery_imgs")
 
-
     class Meta:
         verbose_name_plural = 'Gallery Images'
 
@@ -116,7 +114,7 @@ class Subscriber(models.Model):
     img = models.ImageField(upload_to="subs")
 
     def __str__(self) -> str:
-        return  self.user
+        return  str(self.user)  
 
     def image_tag(self):
         return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
