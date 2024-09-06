@@ -36,6 +36,7 @@ urlpatterns = [
     path('Trainer-Dashboard', views.trainer_dashboard,name= 'trainer_dashboard'),
     path('Account-Settings', views.trainer_edit_profile,name= 'trainer_edit_profile'),
     path('Assigned-Subscribers', views.trainer_assigned_subscribers,name= 'trainer_assigned_subscribers'),
+    path('Payments', views.trainer_payments,name= 'trainer_payments'),
 
     # Notifications
     path('Notifications', views.notifications,name= 'notifications'), 

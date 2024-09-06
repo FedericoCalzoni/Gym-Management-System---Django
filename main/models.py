@@ -166,7 +166,7 @@ class TrainerAcheivements(models.Model):
         if self.badge_image:
             return mark_safe('<img src="%s" width ="80"/>' %(self.badge_image.url))
 
-'''
+
 class TrainerSalary(models.Model):
     trainer = models.ForeignKey(Trainer,on_delete=models.CASCADE)
     amount = models.IntegerField()
@@ -174,8 +174,8 @@ class TrainerSalary(models.Model):
     remarks = models.TextField(blank=True)
 
     def __str__(self) -> str:
-        return self.amount
-'''
+        return str(self.amount)
+    
 
 # Notifications and response via ajax
 class Notify(models.Model):

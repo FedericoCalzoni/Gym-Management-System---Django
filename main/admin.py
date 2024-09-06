@@ -95,10 +95,10 @@ class TrainerAcheivementsAdmin(admin.ModelAdmin):
 admin.site.register(models.TrainerAcheivements, TrainerAcheivementsAdmin)
 
 
-# class TrainerSalaryAdmin(admin.ModelAdmin):
-#     list_display = ('trainer','amount','deposit_date','remarks')
+class TrainerSalaryAdmin(admin.ModelAdmin):
+    list_display = ('trainer','amount','deposit_date','remarks')
     
-# admin.site.register(models.TrainerSalary, TrainerSalaryAdmin)
+admin.site.register(models.TrainerSalary, TrainerSalaryAdmin)
 
 
 

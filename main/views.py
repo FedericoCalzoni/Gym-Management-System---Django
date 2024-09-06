@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerSalary
 
 from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm,EditTrainerProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
@@ -356,3 +356,12 @@ def trainer_assigned_subscribers(request):
 
     context = {'trainer_subscribers': trainer_subscribers}
     return render(request, 'trainer/assigned_subscribers.html',context)
+
+
+def trainer_payments(request):
+    trainer = Trainer.objects.get(pk=request.session['trainerid'])
+    trainer_payments = TrainerSalary.objects.filter(trainer = trainer)
+    print(trainer_payments)
+    context = {'trainer_payments': trainer_payments}
+
+    return render(request, 'trainer/payments.html',context)
