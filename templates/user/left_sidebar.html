@@ -1,0 +1,19 @@
+<style>
+    .list-group {
+    margin-top: 0; /* Ensure consistent margin */
+}
+.left-sidebar {
+    position: sticky;
+    top: 0;
+}
+</style>
+
+
+    <div class="list-group">
+        <a href="{% url 'dashboard' %}" class="list-group-item  {% if request.path == '/Dashboard' %} active {% endif %}">Dashboard</a>
+        <!-- <a href="#" class="list-group-item ">Profile</a> -->
+        <a href="{% url 'notifications' %}" class="list-group-item {% if request.path == '/Notifications' %} active {% endif %}">Notifications <span class="float-end badge bg-info mt-1">{{total_unread}}</span></a>
+        <a href="#" class="list-group-item">Messages</a>
+        <a href="{% url 'update_profile' %}" class="list-group-item {% if request.path == '/Edit-Profile' %} active {% endif %} ">Settings</a>
+
+    </div>

@@ -14,16 +14,11 @@
 
         <div class="row">
             <div class="col-3">
-                <div class="list-group">
-                    <a href="{% url 'dashboard' %}" class="list-group-item">Dashboard</a>
-                    <a href="#" class="list-group-item">Profile</a>
-                    <a href="{% url 'notifications' %}" class="list-group-item {% if request.path == '/Notifications' %} active {% endif %}">Notifications <span class="float-end badge bg-info mt-1">{{total_unread}}</span></a>
-                    <a href="#" class="list-group-item">Messages</a>
-                </div>
+                {% include 'user/left_sidebar.html' %}
             </div>
 
             <div class="col-9">
-                <h3 class="mb-4 border-bottom pb-1">Notifications <span class="badge bg-primary total_unread "></span></h3>
+                <h3 class="mb-4 border-bottom pb-1 text-center">Notifications <span class="badge bg-primary total_unread "></span></h3>
 
                 <span class="ajaxRes"> 
 
