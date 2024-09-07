@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerSalary
 
-from .forms import LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm,EditTrainerProfileForm
+from .forms import EditTrainerPasswordForm, LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm,EditTrainerProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
@@ -329,6 +329,32 @@ def trainer_dashboard(request):
     return render(request, 'trainer/dashboard.html')
 
 
+def trainer_change_password(request):
+    trainer = Trainer.objects.get(pk=request.session['trainerid'])
+
+    if request.method == 'POST':
+        old_password = request.POST['old_password']
+        new_password1 = request.POST['new_password1']
+        new_password2 = request.POST['new_password2']
+
+        if old_password != trainer.password:
+            messages.error(request, "Old password is incorrect.")
+
+        elif new_password1 != new_password2:
+            messages.error(request, "New passwords do not match.")
+            
+        else:
+            trainer.password = new_password1
+            trainer.save()
+            messages.success(request, "Password updated successfully!")
+            return redirect('trainer_change_password')
+    
+    password_form = EditTrainerPasswordForm()
+
+    context = {'password_form': password_form}
+
+    return render(request, 'trainer/change_password.html', context)
+
 def trainer_edit_profile(request):
 
     t_id = request.session['trainerid'] 
@@ -361,7 +387,8 @@ def trainer_assigned_subscribers(request):
 def trainer_payments(request):
     trainer = Trainer.objects.get(pk=request.session['trainerid'])
     trainer_payments = TrainerSalary.objects.filter(trainer = trainer)
-    print(trainer_payments)
+
     context = {'trainer_payments': trainer_payments}
 
     return render(request, 'trainer/payments.html',context)
+

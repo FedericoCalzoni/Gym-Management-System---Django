@@ -48,10 +48,19 @@ class EditTrainerProfileForm(UserChangeForm):
         fields = ['full_name','mobile','address','details','img']
 
 
-class EditTrainerPasswordForm(PasswordChangeForm):
-    class Meta:
-        model = models.Trainer
-        fields = ['old_password', 'new_password1', 'new_password2']
-        widgets = {
-            'password': forms.PasswordInput(attrs={'placeholder': 'Password'}),
-        }
+class EditTrainerPasswordForm(forms.Form):
+
+    old_password = forms.CharField(
+        max_length=50,required=True,
+        widget=forms.PasswordInput(attrs={})
+        )
+    
+    new_password1 = forms.CharField(
+        max_length=50,required=True,
+        widget=forms.PasswordInput(attrs={})
+        )
+    
+    new_password2 = forms.CharField(
+        max_length=50,required=True,
+        widget=forms.PasswordInput(attrs={})
+        )

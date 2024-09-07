@@ -33,6 +33,7 @@ urlpatterns = [
     #Trainer
     path('Trainer-Login', views.trainer_login,name= 'trainer_login'), 
     path('Trainer-Logout', views.trainer_logout,name= 'trainer_logout'),
+    path('Change-Password', views.trainer_change_password,name= 'trainer_change_password'),
     path('Trainer-Dashboard', views.trainer_dashboard,name= 'trainer_dashboard'),
     path('Account-Settings', views.trainer_edit_profile,name= 'trainer_edit_profile'),
     path('Assigned-Subscribers', views.trainer_assigned_subscribers,name= 'trainer_assigned_subscribers'),
