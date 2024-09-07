@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerSalary
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerNotification, TrainerSalary
 
 from .forms import EditTrainerPasswordForm, LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm,EditTrainerProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
@@ -342,7 +342,7 @@ def trainer_change_password(request):
 
         elif new_password1 != new_password2:
             messages.error(request, "New passwords do not match.")
-            
+
         else:
             trainer.password = new_password1
             trainer.save()
@@ -354,6 +354,7 @@ def trainer_change_password(request):
     context = {'password_form': password_form}
 
     return render(request, 'trainer/change_password.html', context)
+
 
 def trainer_edit_profile(request):
 
@@ -392,3 +393,10 @@ def trainer_payments(request):
 
     return render(request, 'trainer/payments.html',context)
 
+
+def trainer_notifications(request):
+    notifications = TrainerNotification.objects.all().order_by('-id')
+    
+    context = {'notifications':notifications}
+
+    return render(request, 'trainer/notifications.html',context)

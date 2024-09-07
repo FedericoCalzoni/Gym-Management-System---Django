@@ -101,4 +101,13 @@ class TrainerSalaryAdmin(admin.ModelAdmin):
 admin.site.register(models.TrainerSalary, TrainerSalaryAdmin)
 
 
+class TrainerNotificationAdmin(admin.ModelAdmin):
+    list_display = ('notif_msg',)
 
+admin.site.register(models.TrainerNotification, TrainerNotificationAdmin)
+
+
+class NotifTrainerStatusAdmin(admin.ModelAdmin):
+    list_display = ('trainer','notif','status')
+
+admin.site.register(models.NotifTrainerStatus, NotifTrainerStatusAdmin)

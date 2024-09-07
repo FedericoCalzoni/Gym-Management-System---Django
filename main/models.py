@@ -176,8 +176,25 @@ class TrainerSalary(models.Model):
     def __str__(self) -> str:
         return str(self.amount)
     
+#just giving notification to trainer by admin
+class TrainerNotification(models.Model):
+    notif_msg = models.TextField()
 
-# Notifications and response via ajax
+    def __str__(self) -> str:
+        return self.notif_msg
+    
+
+# Trainer notifications
+class NotifTrainerStatus(models.Model):
+    notif = models.ForeignKey(TrainerNotification, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = 'Trainer Notifications Status'
+
+    
+# User Notifications and response via ajax
 class Notify(models.Model):
     notify_detail = models.TextField()
     read_by_user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
@@ -185,6 +202,7 @@ class Notify(models.Model):
 
     def __str__(self) ->str:
         return self.notify_detail
+    
     
 # Mark as read notifications by user
 class NotifUserStatus(models.Model):

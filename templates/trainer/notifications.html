@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+    <section class="container my-4">
+
+        <div class="row">
+            <div class="col-3">
+                {% include 'trainer/left_sidebar.html' %}
+            </div>
+
+            <div class="col-9">
+                <h3 class="mb-4 border-bottom pb-1 text-center">Notifications  <span class="badge bg-info" style="position: relative; top: -3px;">123</span></a></h3>
+
+                <ul class="list-group ">
+                    {% for notification in notifications %}
+                    <li class="list-group-item bg-light">
+                        {{notification.notif_msg}}
+                        <span class="btn btn-info btn-sm float-end">Mark as Read</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+
+            </div>
+        </div>
+
+    </section>
+    <!-- End -->
+</main>
+
+{% endblock %}

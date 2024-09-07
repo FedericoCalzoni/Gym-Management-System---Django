@@ -13,7 +13,8 @@
     <a href="{% url 'trainer_assigned_subscribers'%}" class="list-group-item {% if request.path == '/Assigned-Subscribers' %} active {% endif %}">My subscribers</a>
     <a href="{% url 'trainer_payments' %}" class="list-group-item {% if request.path == '/Payments' %} active {% endif %}">Payments</a>
     <a href="#" class="list-group-item">Messages <span class="float-end badge bg-info mt-1">123</span></a>
-    <a href="#" class="list-group-item">Notifications <span class="float-end badge bg-info mt-1">123</span></a>
-    <a href="{% url 'trainer_change_password' %}" class="list-group-item {% if request.path == '/Change-Password' %} active {% endif %}">Change Password <span class="float-end badge bg-info mt-1">123</span></a>
+    <a href="{% url 'trainer_notifications' %}" class="list-group-item {% if request.path == '/Trainer-Notifications' %} active {% endif %}">Notifications <span class="float-end badge bg-info mt-1">123</span></a>
+    <a href="{% url 'trainer_change_password' %}" class="list-group-item {% if request.path == '/Change-Password' %} active {% endif %}">Change Password</a>
     <a href="{% url 'trainer_edit_profile' %}" class="list-group-item {% if request.path == '/Account-Settings' %} active {% endif %}">Settings</a>
 </div>
+
