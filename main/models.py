@@ -193,6 +193,10 @@ class NotifTrainerStatus(models.Model):
     class Meta:
         verbose_name_plural = 'Trainer Notifications Status'
 
+    def __str__(self) -> str:
+        return self.status
+
+
     
 # User Notifications and response via ajax
 class Notify(models.Model):
@@ -203,7 +207,7 @@ class Notify(models.Model):
     def __str__(self) ->str:
         return self.notify_detail
     
-    
+
 # Mark as read notifications by user
 class NotifUserStatus(models.Model):
     notif = models.ForeignKey(Notify, on_delete=models.CASCADE)
@@ -220,3 +224,16 @@ class AssignSubscriber(models.Model):
 
     def __str__(self) -> str:
         return str(self.subscriber)
+    
+
+## Subscriber messages model
+class TrainerMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True)
+    message = models.TextField()
+
+    class Meta:
+        verbose_name_plural = 'Messages to Trainers'
+
+    def __str__(self) -> str:
+        return self.message

@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerNotification, TrainerSalary
+from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerMessage, TrainerNotification, TrainerSalary
 
 from .forms import EditTrainerPasswordForm, LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm,EditTrainerProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
@@ -396,7 +396,15 @@ def trainer_payments(request):
 
 def trainer_notifications(request):
     notifications = TrainerNotification.objects.all().order_by('-id')
-    
+
     context = {'notifications':notifications}
 
     return render(request, 'trainer/notifications.html',context)
+
+
+def trainer_messages(request):
+    data = TrainerMessage.objects.all().order_by('-id')
+
+    context = {'data':data}
+
+    return render(request, 'trainer/messages.html',context)

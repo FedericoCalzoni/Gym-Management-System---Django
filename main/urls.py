@@ -39,6 +39,8 @@ urlpatterns = [
     path('Assigned-Subscribers', views.trainer_assigned_subscribers,name= 'trainer_assigned_subscribers'),
     path('Payments', views.trainer_payments,name= 'trainer_payments'),
     path('Trainer-Notifications', views.trainer_notifications,name= 'trainer_notifications'),
+    path('Messages', views.trainer_messages,name= 'trainer_messages'),
+    
 
     # Notifications
     path('Notifications', views.notifications,name= 'notifications'), 
