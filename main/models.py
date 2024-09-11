@@ -2,6 +2,9 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+import json
 
 class Banners(models.Model):
     img = models.ImageField(upload_to="banners")
@@ -183,6 +186,26 @@ class TrainerNotification(models.Model):
     def __str__(self) -> str:
         return self.notif_msg
     
+    def save(self, *args, **kwargs):
+        super(TrainerNotification,self).save(*args, **kwargs)
+        
+        channel_layer = get_channel_layer()
+        notif  = self.notif_msg
+        total = TrainerNotification.objects.all().count()
+
+        async_to_sync(channel_layer.group_send)(
+            'noti_group_name',
+            {
+                'type':'send_notification',
+                'value':json.dumps(
+                    {'notif':notif,
+                    'total':total}
+                    )
+            }
+        )
+
+        
+
 
 # Trainer notifications
 class NotifTrainerStatus(models.Model):
@@ -226,7 +249,7 @@ class AssignSubscriber(models.Model):
         return str(self.subscriber)
     
 
-## Subscriber messages model
+# Subscriber messages to trainer 
 class TrainerMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True)

@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'daphne',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -73,7 +75,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'GYM_MANAGEMENT_SYSTEM.wsgi.application'
+# WSGI_APPLICATION = 'GYM_MANAGEMENT_SYSTEM.wsgi.application'
+ASGI_APPLICATION = 'GYM_MANAGEMENT_SYSTEM.asgi.application'
 
 
 # Database
@@ -145,3 +148,13 @@ JAZZMIN_SETTINGS = {
     "site_header": "Admin Panel",
      "order_with_respect_to": ["auth", "main.banners", "main.service", "main.enquiry", "main.gallery", "main.GalleryImages","main.Page","main.subscriptionplans","main.subscriptionplansfeatures"],
     }
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}

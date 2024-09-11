@@ -11,9 +11,9 @@
             </div>
 
             <div class="col-9">
-                <h3 class="mb-4 border-bottom pb-1 text-center">Notifications  <span class="badge bg-info" style="position: relative; top: -3px;">123</span></a></h3>
+                <h3 class="mb-4 border-bottom pb-1 text-center">Notifications  <span class="badge bg-info total_unread" style="position: relative; top: -3px; ">{{notifs.count}}</span></a></h3>
 
-                <ul class="list-group ">
+                <ul class="list-group notif-list">
                     {% for notification in notifications %}
                     <li class="list-group-item bg-light">
                         {{notification.notif_msg}}
@@ -29,5 +29,30 @@
     </section>
     <!-- End -->
 </main>
+
+<script type="text/javascript">
+    const Websocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/notifications/'
+    );
+
+    Websocket.onopen = function(){
+        Websocket.send(JSON.stringify({
+            'message': 'From Client'
+        }));
+    }
+
+    Websocket.onmessage = function(){
+        var _data = JSON.parse(event.data);
+        $(".notif-list").append('<li class="list-group-item">'+_data.notif+'<span class="btn btn-info btn-sm float-end">Mark as Read</span> </li>');
+
+        $(".total_unread").text(_data.total);
+    }
+    Websocket.onclose = function(){
+        console.log("closed");
+    }
+
+</script>
 
 {% endblock %}
