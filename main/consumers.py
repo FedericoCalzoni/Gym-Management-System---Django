@@ -19,6 +19,13 @@ class NotificationsConsumer(WebsocketConsumer):
         self.close(close_code)
 
     def send_notification(self,event):
-        self.send(event.get('value'))
+        data = json.loads(event['value'])
+        
+        self.send(text_data=json.dumps({
+            'notif_id': data.get('notif_id'),
+            'notif': data.get('notif'),
+            'total': data.get('total'),
+            'action': data.get('action')  # 'add' or 'delete'
+        }))
 
  

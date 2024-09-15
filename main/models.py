@@ -187,24 +187,44 @@ class TrainerNotification(models.Model):
         return self.notif_msg
     
     def save(self, *args, **kwargs):
-        super(TrainerNotification,self).save(*args, **kwargs)
-        
+        super(TrainerNotification, self).save(*args, **kwargs)
+
         channel_layer = get_channel_layer()
-        notif  = self.notif_msg
+        notif = self.notif_msg
+        notif_id = self.pk  # Get the primary key (ID) after saving
         total = TrainerNotification.objects.all().count()
 
         async_to_sync(channel_layer.group_send)(
             'noti_group_name',
             {
-                'type':'send_notification',
-                'value':json.dumps(
-                    {'notif':notif,
-                    'total':total}
-                    )
+                'type': 'send_notification',
+                'value': json.dumps({
+                    'notif_id': notif_id, 
+                    'notif': notif,
+                    'total': total,
+                    'action': 'add' 
+                })
             }
         )
 
+    def delete(self, *args, **kwargs):
+        notif_id = self.pk
+        super(TrainerNotification, self).delete(*args, **kwargs)
         
+        channel_layer = get_channel_layer()
+        total = TrainerNotification.objects.all().count()
+
+        async_to_sync(channel_layer.group_send)(
+            'noti_group_name',
+            {
+                'type': 'send_notification',
+                'value': json.dumps({
+                    'notif_id': notif_id,
+                    'total': total,
+                    'action': 'delete'
+                })
+            }
+        )
 
 
 # Trainer notifications

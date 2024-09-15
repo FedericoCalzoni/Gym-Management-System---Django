@@ -15,7 +15,7 @@
 
                 <ul class="list-group notif-list">
                     {% for notification in notifications %}
-                    <li class="list-group-item bg-light">
+                    <li class="list-group-item bg-light " data-id="{{ notification.id }}">
                         {{notification.notif_msg}}
                         <span class="btn btn-info btn-sm float-end">Mark as Read</span>
                     </li>
@@ -43,12 +43,25 @@
         }));
     }
 
-    Websocket.onmessage = function(){
+    Websocket.onmessage = function(event) {
         var _data = JSON.parse(event.data);
-        $(".notif-list").append('<li class="list-group-item">'+_data.notif+'<span class="btn btn-info btn-sm float-end">Mark as Read</span> </li>');
+        
+        if (_data.action === 'add') {
+            // Add a new notification to the list
+            $(".notif-list").prepend(
+                '<li class="list-group-item" data-id="'+_data.notif_id+'">'
+                + _data.notif + 
+                '<span class="btn btn-info btn-sm float-end">Mark as Read</span>'
+                + '</li>'
+            );
+        } else if (_data.action === 'delete') {
+            // Remove the notification from the list based on its ID
+            $(".notif-list").find("[data-id='" + _data.notif_id + "']").remove();
+        }
 
+        // Update the unread count
         $(".total_unread").text(_data.total);
-    }
+    };
     Websocket.onclose = function(){
         console.log("closed");
     }

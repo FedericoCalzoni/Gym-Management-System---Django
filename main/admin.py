@@ -104,6 +104,13 @@ admin.site.register(models.TrainerSalary, TrainerSalaryAdmin)
 class TrainerNotificationAdmin(admin.ModelAdmin):
     list_display = ('notif_msg',)
 
+    def delete_model(self, request, obj):
+        obj.delete()
+
+    def delete_queryset(self, request, queryset):
+        for obj in queryset:
+            obj.delete()
+
 admin.site.register(models.TrainerNotification, TrainerNotificationAdmin)
 
 
