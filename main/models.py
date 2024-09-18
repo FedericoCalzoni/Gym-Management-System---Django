@@ -182,9 +182,10 @@ class TrainerSalary(models.Model):
 #just giving notification to trainer by admin
 class TrainerNotification(models.Model):
     notif_msg = models.TextField()
+    is_read = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return self.notif_msg
+        return str(self.notif_msg)
     
     def save(self, *args, **kwargs):
         super(TrainerNotification, self).save(*args, **kwargs)
@@ -192,7 +193,7 @@ class TrainerNotification(models.Model):
         channel_layer = get_channel_layer()
         notif = self.notif_msg
         notif_id = self.pk  # Get the primary key (ID) after saving
-        total = TrainerNotification.objects.all().count()
+        total = TrainerNotification.objects.filter(is_read=False).count()
 
         async_to_sync(channel_layer.group_send)(
             'noti_group_name',
@@ -212,7 +213,7 @@ class TrainerNotification(models.Model):
         super(TrainerNotification, self).delete(*args, **kwargs)
         
         channel_layer = get_channel_layer()
-        total = TrainerNotification.objects.all().count()
+        total = TrainerNotification.objects.filter(is_read=False).count()
 
         async_to_sync(channel_layer.group_send)(
             'noti_group_name',
@@ -227,17 +228,17 @@ class TrainerNotification(models.Model):
         )
 
 
-# Trainer notifications
-class NotifTrainerStatus(models.Model):
-    notif = models.ForeignKey(TrainerNotification, on_delete=models.CASCADE)
-    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-    status = models.BooleanField(default=False)
+# # Trainer notifications
+# class NotifTrainerStatus(models.Model):
+#     notif = models.ForeignKey(TrainerNotification, on_delete=models.CASCADE)
+#     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+#     status = models.BooleanField(default=False)
 
-    class Meta:
-        verbose_name_plural = 'Trainer Notifications Status'
+#     class Meta:
+#         verbose_name_plural = 'Trainer Notifications Status'
 
-    def __str__(self) -> str:
-        return self.status
+#     def __str__(self) -> str:
+#         return str(self.notif)
 
 
     

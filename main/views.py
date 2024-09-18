@@ -396,10 +396,17 @@ def trainer_payments(request):
 
 def trainer_notifications(request):
     notifications = TrainerNotification.objects.all().order_by('-id')
+    unread_count = TrainerNotification.objects.filter(is_read=False).count()
 
-    context = {'notifications':notifications}
+    context = {'notifications':notifications,'unread_count':unread_count}
 
     return render(request, 'trainer/notifications.html',context)
+
+
+def mark_all_as_read(request):
+    if request.method == 'POST':
+        TrainerNotification.objects.filter(is_read=False).update(is_read=True)
+        return JsonResponse({'success': True})
 
 
 def trainer_messages(request):

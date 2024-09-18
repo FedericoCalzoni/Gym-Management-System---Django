@@ -7,21 +7,23 @@
 
         <div class="row">
             <div class="col-3">
-                {% include 'trainer/left_sidebar.html' %}
+                {% include 'trainer/left_sidebar.html'%}
             </div>
 
             <div class="col-9">
-                <h3 class="mb-4 border-bottom pb-1 text-center">Notifications  <span class="badge bg-info total_unread" style="position: relative; top: -3px; ">{{notifs.count}}</span></a></h3>
+                <h3 class="mb-4 border-bottom pb-1 text-center">
+                    Notifications  
+                    <span class="badge bg-info total_unread" style="position: relative; top: -3px;">{{unread_count}}</span>
+                    <span class="btn btn-info btn-sm float-end mark-all-read-btn" style="margin-left: 10px;">Mark all as read</span>
+                </h3>
 
                 <ul class="list-group notif-list">
                     {% for notification in notifications %}
-                    <li class="list-group-item bg-light " data-id="{{ notification.id }}">
+                    <li class="list-group-item bg-light" data-id="{{ notification.id }}">
                         {{notification.notif_msg}}
-                        <span class="btn btn-info btn-sm float-end">Mark as Read</span>
                     </li>
                     {% endfor %}
                 </ul>
-
 
             </div>
         </div>
@@ -51,8 +53,7 @@
             $(".notif-list").prepend(
                 '<li class="list-group-item" data-id="'+_data.notif_id+'">'
                 + _data.notif + 
-                '<span class="btn btn-info btn-sm float-end">Mark as Read</span>'
-                + '</li>'
+                '</li>'
             );
         } else if (_data.action === 'delete') {
             // Remove the notification from the list based on its ID
@@ -65,6 +66,27 @@
     Websocket.onclose = function(){
         console.log("closed");
     }
+
+
+    // Handle "Mark all as Read" click
+    $(".mark-all-read-btn").click(function() {
+        $.ajax({
+            url: "{% url 'mark_all_as_read' %}",  
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Set unread count to 0
+                    $(".total_unread").text(0);
+                    
+                    // Optionally, you can visually mark all notifications as read here
+                }
+            }
+        });
+    });
+
 
 </script>
 

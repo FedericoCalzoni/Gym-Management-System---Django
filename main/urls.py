@@ -39,6 +39,7 @@ urlpatterns = [
     path('Assigned-Subscribers', views.trainer_assigned_subscribers,name= 'trainer_assigned_subscribers'),
     path('Payments', views.trainer_payments,name= 'trainer_payments'),
     path('Trainer-Notifications', views.trainer_notifications,name= 'trainer_notifications'),
+    path('notifications/mark_all_as_read', views.mark_all_as_read,name= 'mark_all_as_read'),
     path('Messages', views.trainer_messages,name= 'trainer_messages'),
     
 

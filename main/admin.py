@@ -102,7 +102,7 @@ admin.site.register(models.TrainerSalary, TrainerSalaryAdmin)
 
 
 class TrainerNotificationAdmin(admin.ModelAdmin):
-    list_display = ('notif_msg',)
+    list_display = ('notif_msg','is_read')
 
     def delete_model(self, request, obj):
         obj.delete()
@@ -114,10 +114,10 @@ class TrainerNotificationAdmin(admin.ModelAdmin):
 admin.site.register(models.TrainerNotification, TrainerNotificationAdmin)
 
 
-class NotifTrainerStatusAdmin(admin.ModelAdmin):
-    list_display = ('trainer','notif','status')
+# class NotifTrainerStatusAdmin(admin.ModelAdmin):
+#     list_display = ('trainer','notif','status')
 
-admin.site.register(models.NotifTrainerStatus, NotifTrainerStatusAdmin)
+# admin.site.register(models.NotifTrainerStatus, NotifTrainerStatusAdmin)
 
 
 class TrainerMessageAdmin(admin.ModelAdmin):
