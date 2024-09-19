@@ -21,6 +21,7 @@ urlpatterns = [
     path('Register', RegisterView.as_view(),name= 'register'), 
     path('Dashboard', views.dashboard,name= 'dashboard'), 
     path('Edit-Profile', views.update_profile,name= 'update_profile'), 
+    path('Report-To-Trainer', views.report_to_trainer,name= 'report_to_trainer'), 
 
     
     path('Plan_Details/<int:plan_id>', views.checkout,name= 'checkout'), 

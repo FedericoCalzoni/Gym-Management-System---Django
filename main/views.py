@@ -294,6 +294,23 @@ def mark_read_notifications(request):
     return JsonResponse({'bool':True})
 
 
+def report_to_trainer(request):
+
+    user = request.user
+    if request.method == 'POST':
+        form = ReportToTrainerForm(request.POST)
+
+        if form.is_valid():
+            new_form = form.save(commit=False)
+            new_form.sender_user= user
+            new_form.save()
+            messages.success(request,'Report has been sent!')
+
+    form = ReportToTrainerForm
+    context = {'form': form}
+    return render(request, 'user/report_to_trainers.html',context)
+
+
 # Trainer logic
 def trainer_login(request):
 

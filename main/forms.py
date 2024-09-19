@@ -77,3 +77,4 @@ class ReportToTrainerForm(forms.ModelForm):
     class Meta:
         model = models.TrainerSubscriberReport
         fields = ['receiver_trainer','report_msg']
+        widgets = {'sender_user':forms.HiddenInput()}
