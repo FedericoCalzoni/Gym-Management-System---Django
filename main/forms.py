@@ -64,3 +64,16 @@ class EditTrainerPasswordForm(forms.Form):
         max_length=50,required=True,
         widget=forms.PasswordInput(attrs={})
         )
+    
+
+class ReportToUserForm(forms.ModelForm):
+    class Meta:
+        model = models.TrainerSubscriberReport
+        fields = ['receiver_user','report_msg','sender_trainer']
+        widgets = {'sender_trainer':forms.HiddenInput()}
+
+
+class ReportToTrainerForm(forms.ModelForm):
+    class Meta:
+        model = models.TrainerSubscriberReport
+        fields = ['receiver_trainer','report_msg']

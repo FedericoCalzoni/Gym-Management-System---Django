@@ -179,7 +179,7 @@ class TrainerSalary(models.Model):
     def __str__(self) -> str:
         return str(self.amount)
     
-#just giving notification to trainer by admin
+#just giving notification to trainer by admin with websockets
 class TrainerNotification(models.Model):
     notif_msg = models.TextField()
     is_read = models.BooleanField(default=False)
@@ -227,20 +227,6 @@ class TrainerNotification(models.Model):
             }
         )
 
-
-# # Trainer notifications
-# class NotifTrainerStatus(models.Model):
-#     notif = models.ForeignKey(TrainerNotification, on_delete=models.CASCADE)
-#     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-#     status = models.BooleanField(default=False)
-
-#     class Meta:
-#         verbose_name_plural = 'Trainer Notifications Status'
-
-#     def __str__(self) -> str:
-#         return str(self.notif)
-
-
     
 # User Notifications and response via ajax
 class Notify(models.Model):
@@ -281,3 +267,28 @@ class TrainerMessage(models.Model):
 
     def __str__(self) -> str:
         return self.message
+
+
+class TrainerSubscriberReport(models.Model):
+    sender_trainer = models.ForeignKey(Trainer, null=True, blank=True, on_delete=models.CASCADE, related_name='reports_sent_as_trainer')
+    sender_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='reports_sent_as_user')
+    receiver_trainer = models.ForeignKey(Trainer, null=True, blank=True, on_delete=models.CASCADE, related_name='reports_received_as_trainer')
+    receiver_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='reports_received_as_user')
+    report_msg = models.TextField(max_length=150)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Trainer/User Reports'
+
+    def __str__(self) -> str:
+        if self.sender_trainer:
+            sender = self.sender_trainer
+        else:
+            sender = self.sender_user
+        
+        if self.receiver_trainer:
+            receiver = self.receiver_trainer
+        else:
+            receiver = self.receiver_user
+
+        return f"Report from {sender} to {receiver}: {self.report_msg[:20]}..."

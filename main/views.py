@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerMessage, TrainerNotification, TrainerSalary
 
-from .forms import EditTrainerPasswordForm, LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm,EditTrainerProfileForm
+from .forms import EditTrainerPasswordForm, LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm,EditTrainerProfileForm,ReportToTrainerForm,ReportToUserForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
@@ -415,3 +415,20 @@ def trainer_messages(request):
     context = {'data':data}
 
     return render(request, 'trainer/messages.html',context)
+
+
+def report_to_user(request):
+
+    trainer = Trainer.objects.get(id=request.session['trainerid'])
+    if request.method == 'POST':
+        form = ReportToUserForm(request.POST)
+
+        if form.is_valid():
+            new_form =form.save(commit=False)
+            new_form.sender_trainer = trainer
+            new_form.save()
+            messages.success(request,'Report has been sent!')
+
+    form = ReportToUserForm
+    context = {'form': form}
+    return render(request, 'trainer/report_to_user.html',context)

@@ -114,13 +114,27 @@ class TrainerNotificationAdmin(admin.ModelAdmin):
 admin.site.register(models.TrainerNotification, TrainerNotificationAdmin)
 
 
-# class NotifTrainerStatusAdmin(admin.ModelAdmin):
-#     list_display = ('trainer','notif','status')
-
-# admin.site.register(models.NotifTrainerStatus, NotifTrainerStatusAdmin)
-
-
 class TrainerMessageAdmin(admin.ModelAdmin):
     list_display = ('user','trainer','message')
 
 admin.site.register(models.TrainerMessage, TrainerMessageAdmin)
+
+
+class TrainerSubscriberReportAdmin(admin.ModelAdmin):
+    list_display = ('get_sender', 'get_receiver', 'report_msg', 'created_at')
+
+    def get_sender(self, obj):
+        if obj.sender_trainer:
+            return obj.sender_trainer
+        else:
+            return obj.sender_user
+    get_sender.short_description = 'Sender'
+
+    def get_receiver(self, obj):
+        if obj.receiver_trainer:
+            return obj.receiver_trainer
+        else:
+            return obj.receiver_user
+    get_receiver.short_description = 'Receiver'
+
+admin.site.register(models.TrainerSubscriberReport, TrainerSubscriberReportAdmin)

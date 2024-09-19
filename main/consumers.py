@@ -13,7 +13,8 @@ class NotificationsConsumer(WebsocketConsumer):
         self.accept()
     
     def receive(self,text_data):
-        self.send(text_data="hello world")
+        # This method is for handling messages sent from the client, if needed.
+        pass
 
     def disconnect(self,close_code):
         self.close(close_code)

@@ -7,7 +7,7 @@
 
         <div class="row">
             <div class="col-3">
-                {% include 'trainer/left_sidebar.html'%}
+                {% include 'trainer/left_sidebar.html' %}
             </div>
 
             <div class="col-9">
@@ -62,6 +62,7 @@
 
         // Update the unread count
         $(".total_unread").text(_data.total);
+
     };
     Websocket.onclose = function(){
         console.log("closed");
@@ -80,6 +81,7 @@
                 if (response.success) {
                     // Set unread count to 0
                     $(".total_unread").text(0);
+
                     
                     // Optionally, you can visually mark all notifications as read here
                 }

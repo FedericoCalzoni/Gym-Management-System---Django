@@ -41,6 +41,7 @@ urlpatterns = [
     path('Trainer-Notifications', views.trainer_notifications,name= 'trainer_notifications'),
     path('notifications/mark_all_as_read', views.mark_all_as_read,name= 'mark_all_as_read'),
     path('Messages', views.trainer_messages,name= 'trainer_messages'),
+    path('Report-to-user', views.report_to_user,name= 'report_to_user'),
     
 
     # Notifications
