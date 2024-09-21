@@ -1,5 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+
+  .card-img-top {
+      height: 250px; /* Set a fixed height */
+      object-fit: cover; /* Maintain aspect ratio */
+      width: 100%; /* Ensure the image takes full width of the card */
+  }
+
+  .btn-info {
+      background-color: #17a2b8; /* Customize as needed */
+      border: none;
+      margin-top: auto; /* Push the button to the bottom */
+  }
+
+  .btn-info:hover {
+      background-color: #138496; /* Customize as needed */
+      transition: background-color 0.3s ease;
+  }
+
+</style>
 
 <main>
     <!-- Services -->
@@ -8,20 +28,15 @@
         <div class="row">
           {% for gallery_img in gallery_imgs %}
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card shadow-lg">
                   <img src={{gallery_img.img.url}} class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">{{gallery_img.title}}</h5>
-                    <p class="card-text">{{gallery_img.details}}</p>
-                    
-                  </div>
                 </div>
 
             </div>
 
           {% endfor %}
           <div class="text-center my-3">
-            <a href="{% url 'gallery' %}" class="btn btn-primary btn-large">Go Back</a>
+            <a href="{% url 'gallery' %}" class="btn btn-info text-white btn-large">Go Back</a>
         </div>
         </div>
     </section>
