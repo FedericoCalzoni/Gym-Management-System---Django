@@ -138,3 +138,9 @@ class TrainerSubscriberReportAdmin(admin.ModelAdmin):
     get_receiver.short_description = 'Receiver'
 
 admin.site.register(models.TrainerSubscriberReport, TrainerSubscriberReportAdmin)
+
+
+class MainLogoAdmin(admin.ModelAdmin):
+    list_display = ('image_tag',)
+    
+admin.site.register(models.MainLogo, MainLogoAdmin)

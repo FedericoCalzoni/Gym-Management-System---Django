@@ -55,6 +55,12 @@ class Enquiry(models.Model):
     def __str__(self):
         return self.full_name
     
+class MainLogo(models.Model):
+    logo_image = models.ImageField(upload_to='main_logo/')
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width ="80"/>' %(self.logo_image.url))
+
 
 class Gallery(models.Model):
     title = models.CharField(max_length=50)
