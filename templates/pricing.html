@@ -4,13 +4,27 @@
 {% block content %}
 {% load mathfilters %}
 
+
+<style>
+    .card {
+      height: 100%; /* Ensure all cards take equal height */
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Increased shadow */
+      transition: transform 0.2s; /* Add transition for hover effect */
+    }
+  
+    .card:hover {
+      transform: translateY(-5px); /* Raise card on hover */
+    }
+  </style>
+
+
 <section class="container my-4">
   <h1 class="text-center mb-4 section-heading border-bottom pb-2">Subscription Plans</h1>
   <main>
       <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
           {% for pricings in pricing %}
           <div class="col">
-              <div class="card mb-4 rounded-3 shadow-sm {% if pricings.highlight_status %} border-primary {% endif %}">
+              <div class="card mb-4 rounded-3 shadow {% if pricings.highlight_status %} border-primary {% endif %}">
                   {% if pricings.highlight_status %}
                   <div class="card-header py-3 text-white bg-primary border-primary">
                       <h4 class="my-0 fw-normal">{{ pricings.title }}</h4>
@@ -20,34 +34,32 @@
                       <h4 class="my-0 fw-normal">{{ pricings.title }}</h4>
                   </div>
                   {% endif %}
-                  <div class="card-body">
-                      <h1 class="card-title pricing-card-title">${{ pricings.price }} 
-                          <small class="text-muted fw-light"> / {{ pricings.validity }} days</small>
-                      </h1>
-                      <p class="text-success">Maximum capacity: <b>{{ pricings.max_members|sub:pricings.registered_members }}</b></p>
-                      <ul class="list-unstyled mt-3 mb-4">
-                          {% for features in pricings.subscriptionplansfeatures_set.all %}
-                          <li><strong><b>.</b></strong> {{ features.title }}</li>
-                          {% endfor %}
-                      </ul>
-
-                      {% check_purchased_package request.user.id as has_purchased_any_plan %}
-                      
-                      {% if user.is_authenticated %}
-                          {% check_purchased_package request.user.id pricings.id as checkpackage %}
-                          
-                          {% if checkpackage %}
-                              <a href="#" class="w-100 btn btn-lg btn-dark disabled">Purchased</a>
-                          {% else %}
-                              {% if has_purchased_any_plan %}
-                                  <!-- Disable the button if any plan is purchased -->
-                                  <a href="#" class="w-100 btn btn-lg btn-outline-secondary disabled">Unavailable</a>
-                              {% else %}
-                                  <a href="{% url 'checkout' pricings.id %}" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
-                              {% endif %}
-                          {% endif %}
-                      {% endif %}
-                  </div>
+                  <div class="card-body d-flex flex-column">
+                    <h1 class="card-title pricing-card-title">${{ pricings.price }} 
+                        <small class="text-muted fw-light"> / {{ pricings.validity }} days</small>
+                    </h1>
+                    <p class="text-success">Maximum capacity: <b>{{ pricings.max_members|sub:pricings.registered_members }}</b></p>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        {% for features in pricings.subscriptionplansfeatures_set.all %}
+                        <li><strong><b>.</b></strong> {{ features.title }}</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="mt-auto"> <!-- This makes the button stay at the bottom -->
+                        {% check_purchased_package request.user.id as has_purchased_any_plan %}
+                        {% if user.is_authenticated %}
+                            {% check_purchased_package request.user.id pricings.id as checkpackage %}
+                            {% if checkpackage %}
+                                <a href="#" class="w-100 btn btn-lg btn-dark disabled">Purchased</a>
+                            {% else %}
+                                {% if has_purchased_any_plan %}
+                                    <a href="#" class="w-100 btn btn-lg btn-outline-secondary disabled">Unavailable</a>
+                                {% else %}
+                                    <a href="{% url 'checkout' pricings.id %}" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
               </div>
           </div>
           {% endfor %}
