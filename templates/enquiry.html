@@ -1,28 +1,67 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background for contrast */
+    }
+
+    .section-heading {
+        font-weight: bold;
+        color: #343a40; /* Dark text for better readability */
+    }
+
+    .btn-info {
+        background-color: #17a2b8; /* Customize as needed */
+        border: none;
+        margin-top: 20px; /* Space above the button */
+        width: 100%; /* Full width for the button */
+        transition: background-color 0.3s ease, transform 0.2s; /* Smooth transitions */
+    }
+
+    .btn-info:hover {
+        background-color: #138496; /* Customize as needed */
+        transform: translateY(-2px); /* Lift effect on hover */
+    }
+
+    .form-group {
+        margin-bottom: 15px; /* Space between form fields */
+    }
+
+    .table {
+        border: none; /* Remove borders for a cleaner look */
+    }
+
+    .table td {
+        padding: 15px; /* Padding inside table cells */
+        vertical-align: middle; /* Center align content vertically */
+    }
+
+    img {
+        border-radius: 8px; /* Rounded corners for images */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    }
+</style>
 
 <main>
-    <!-- Services -->
     <section class="container my-4">
         <h1 class="text-center mb-4 section-heading border-bottom pb-2">Enquiry Form</h1>
         <div class="row">
             <div class="col-md-6">
-                <img src="{% static 'images/enquiry1.jpg' %}" class="img-fluid" /> 
+                <img src="{% static 'images/enquiry1.jpg' %}" class="img-fluid" alt="Enquiry Image" /> 
             </div>
             <div class="col-md-6">
-
                 {% if msg %}
-                <p class="text-success">{{msg}}</p>
+                <p class="text-success">{{ msg }}</p>
                 {% endif %}
                 
                 <form method="post" action="{% url 'enquiry' %}">
                     {% csrf_token %}
                     <table class="table table-bordered">
-                        {{form.as_table}}
+                        {{ form.as_table }}
                         <tr>
-                            <td colspan="2">
-                                <input type="submit" class="btn btn-primary" />
+                            <td colspan="2" class="text-center">
+                                <input type="submit" class="btn btn-info text-white" value="Submit Enquiry" />
                             </td>
                         </tr>
                     </table>
@@ -30,7 +69,6 @@
             </div>
         </div>
     </section>
-    <!-- End -->
 </main>
 
 {% endblock %}
