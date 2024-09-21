@@ -44,6 +44,9 @@ def faq_page(request):
     return render(request, 'faq.html',context)
 
 
+def contact_us(request):
+    return render(request, 'contact_us.html')
+
 def enquiry(request):
 
     msg= ''
