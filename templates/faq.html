@@ -1,15 +1,56 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+<style>
+    .accordion-button {
+    font-weight: bold; 
+    transition: background-color 0.3s;
+}
+
+.accordion-button:hover {
+    background-color: #f0f0f0; 
+}
+
+.accordion-item {
+    border: none; 
+}
+
+.accordion-header {
+    border: none; 
+}
+
+.accordion-body {
+    background-color: #f9f9f9; 
+    border-top: 1px solid #ddd; /* Top border for separation */
+}
+
+/* Font Awesome icon styling */
+.accordion-button .fa-question-circle {
+    color: #007bff; /* Change icon color */
+}
+
+/* Add rounded corners to the accordion items */
+.accordion-item {
+    border-radius: 0.5rem; /* Rounded corners */
+}
+
+/* Add shadow effect */
+.accordion-item.shadow-sm {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+</style>
 <main>
-    <!-- Services -->
+    <!-- FAQ Section -->
     <section class="container my-4">
         <h1 class="text-center mb-4 section-heading border-bottom pb-2">FAQ</h1>
         <div class="accordion" id="accordionExample">
             {% for faqs in faq %}
-            <div class="accordion-item">
+            <div class="accordion-item shadow-sm mb-3 rounded">
                 <h2 class="accordion-header" id="heading{{ forloop.counter }}">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                        <span class="me-2"><i class="fas fa-question-circle"></i></span> <!-- Font Awesome icon -->
                         {{ faqs.question }}
                     </button>
                 </h2>

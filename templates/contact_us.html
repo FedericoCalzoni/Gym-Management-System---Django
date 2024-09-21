@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
 <main>
     <!-- Contact Us Section -->
     <section class="container my-4">
@@ -18,35 +19,40 @@
                 </div>
             </div>
 
-            <!-- Contact Form on the Right -->
+            <!-- Static Contact Information on the Right -->
             <div class="col-md-6">
-                <h4 class="mb-3">Get in Touch</h4>
-                <form>
-                    <div class="form-group mb-3">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="subject">Subject</label>
-                        <input type="text" class="form-control" id="subject" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="message">Message</label>
-                        <textarea class="form-control" id="message" rows="4" required></textarea>
-                    </div>
-
-                    <button type="submit" class="btn  w-100" style="background-color: #FFC107; color: #000;">Send Message</button>
-                </form>
+                <h4 class="mb-3 text-center">Information</h4>
+                <div class="card shadow-lg p-3">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Email</th>
+                                <td>example@email.com</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Website</th>
+                                <td><a href="https://www.example.com" target="_blank">www.example.com</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Phone Number</th>
+                                <td>+92 123 456 7890</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Address</th>
+                                <td>123 Gym Street, Fitness City, Pakistan</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Social Media</th>
+                                <td>
+                                    <a href="#" target="_blank">Facebook</a>, 
+                                    <a href="#" target="_blank">Instagram</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
 </main>
 {% endblock %}
-
