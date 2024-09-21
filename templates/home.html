@@ -3,97 +3,106 @@
 {% block content %}
     <!-- Main Start -->
     <main>
-    	<!-- banner Start -->
+        <!-- Banner Start -->
+        <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                {% for banner in banners %}
+                <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
+                    <img src="{{banner.img.url}}" class="d-block w-100" alt="Slide {{ forloop.counter }}">
+                    
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!-- End Banner -->
 
-		<div id="carouselExampleIndicators" class="carousel slide">
-			<div class="carousel-indicators">
-			  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-			  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-			  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-			</div>
-			<div class="carousel-inner">
+        <!-- Services -->
+        <section class="container my-4">
+            <h1 class="text-center mb-4 section-heading">Services</h1>
+            <h6 class="text-center mb-4">What We Offer</h6>
+            <div class="row">
+                {% for services in service %}
+                <div class="col-md-4">
+                    <div class="card shadow-lg">
+                        <img src="{{services.img.url}}" class="card-img-top" alt="{{ services.title }}">
+                        <div class="card-body">
+                            <h3 class="card-title text-center">{{services.title}}</h3>
+                            <p class="card-text">{{services.details}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        <!-- End Services -->
 
-				{% for banner in banners %}
-				<div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
-				  <img src="{{banner.img.url}}" class="d-block w-100" alt="Slide 1">
-				</div>
-				{% endfor %}
-
-			</div>
-			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-			  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			  <span class="visually-hidden">Previous</span>
-			</button>
-			<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-			  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-			  <span class="visually-hidden">Next</span>
-			</button>
-		  </div>
-
-		<!-- End Banner -->
-		 
-		<!-- Services -->
-		<section class="container my-4">
-			<h1 class="text-center mb-4 section-heading">Services</h1>
-			<div class="row">
-
-				{% for services in service %}
-
-				<div class="col-md-4">
-					<div class="card">
-					  <img src="{{services.img.url}}" class="card-img-top" alt="...">
-					  <div class="card-body">
-					    <h3 class="card-title">{{services.title}}</h3>
-					    <p class="card-text">{{services.details}}</p>
-					    <a href="service.html" class="btn btn-primary">Read More</a>
-					  </div>
-					</div>
-				</div>
-
-				{% endfor %}
-			</div>
-		</section>
-		<!-- End -->
-
-		<!-- Testimonials -->
-		<section class="container-fluid bg-light py-4 mt-5 border-top border-bottom">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-5">
-							<h1 class="mb-4 section-heading">About Us</h1>
-							<p class="lh-base">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1550s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-							<p><a href="{% url 'page' 1 %}" class="btn btn-info text-white">Read More</a></p>
-					</div>
+        <!-- About Us -->
+        <section class="container-fluid bg-light py-4 mt-5 border-top border-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h1 class="mb-4 section-heading">About Us</h1>
+                        <p class="lh-base">At RJ GYM, we are passionate about helping you achieve your fitness goals. Established with a vision to create a fitness community that inspires and motivates, our gym offers top-of-the-line equipment, professional trainers, and a wide range of classes to suit every fitness level. Whether you're looking to build strength, lose weight, or just stay active, our personalized programs cater to your individual needs.<br>
+                        Over the years, we have grown from a small fitness center into a hub for fitness enthusiasts who seek a balance of health, wellness, and community spirit. Our commitment to quality training and client satisfaction has made us a trusted name in the fitness industry.</p>
+                        <p><a href="{% url 'page' 1 %}" class="btn btn-info text-white">Read More</a></p>
+                    </div>
 					<div class="col-md-6 offset-1">
-							<h1 class="mb-4 section-heading">Gallery <a href="#" class="float-end btn btn-info text-white mt-2">View All</a></h1>
-							
-							<div class="gallery">
-
+						<h1 class="mb-4 section-heading text-center">Sneak Peek <a href="{% url 'gallery' %}" class="float-end btn btn-info text-white mt-2">View Gallery</a></h1>
+						<div class="card shadow-lg p-3">
+							<div class="gallery d-flex flex-wrap justify-content-center">
 								{% for gallery_image in gallery_images %}
-
 								<a data-lightbox="home-gallery" href="{{gallery_image.img.url }}">
-									<img src="{{gallery_image.img.url }}" width="155" class="img-thumbnail" alt="{{gallery_image.alt_text}}">
+									<img src="{{gallery_image.img.url }}" class="img-thumbnail" alt="{{gallery_image.alt_text}}" style="width: 130px; height: 130px; object-fit: cover; margin: 5px;">
 								</a>
-								
 								{% endfor %}
-
 							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Testimonials -->
+                </div>
+            </div>
+        </section>
+        <!-- End About Us -->
 
     </main>
     <!-- End -->
 
+    <!-- Lightbox CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'lightbox2/dist/css/lightbox.min.css' %}"/>
 
-	<!-- Light box css -->
+    <!-- Lightbox JS -->
+    <script type="text/javascript" src="{% static 'lightbox2/dist/js/lightbox.min.js' %}"></script>
 
-	<link rel="stylesheet" type="text/css" href="{% static 'lightbox2/dist/css/lightbox.min.css' %}"/>
-
-	<!-- Light box js -->
-
-	<script type="text/javascript" src="{% static 'lightbox2/dist/js/lightbox.min.js' %}"></script>
+    <style>
+        /* Custom Styles */
+        .section-heading {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: bold;
+        }
+        .card:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: box-shadow 0.3s ease;
+        }
+        .btn-info {
+            background-color: #17a2b8; /* Customize as needed */
+            border: none;
+        }
+        .btn-info:hover {
+            background-color: #138496; /* Customize as needed */
+            transition: background-color 0.3s ease;
+        }
+    </style>
 
 {% endblock %}
