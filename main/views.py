@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Page,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerMessage, TrainerNotification, TrainerSalary
+from .models import Banners ,Service,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerMessage, TrainerNotification, TrainerSalary
 
 from .forms import EditTrainerPasswordForm, LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm,EditTrainerProfileForm,ReportToTrainerForm,ReportToUserForm
 from django.contrib.auth.forms import PasswordChangeForm
@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.views import LoginView,LogoutView
 from django.views.generic import CreateView
 
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.db.models import Count
 from datetime import timedelta
 
@@ -28,12 +28,21 @@ def home(request):
 
     return render(request, 'home.html',context)
 
-def page_detail(request,id):
 
-    pages = Page.objects.get(id=id)
-    context = {'pages':pages}
+def static_pages(request, page_name):
+    templates = {
+        'about': 'about.html',
+        'privacy': 'privacy.html',
+        'terms': 'terms.html',
+        'contact_us': 'contact_us.html'
+    }
 
-    return render(request, 'page.html',context)
+    template_name = templates.get(page_name)
+
+    if template_name:
+        return render(request, template_name)
+    else:
+        raise Http404("Page not found")
 
 
 def faq_page(request):
@@ -43,9 +52,6 @@ def faq_page(request):
 
     return render(request, 'faq.html',context)
 
-
-def contact_us(request):
-    return render(request, 'contact_us.html')
 
 def enquiry(request):
 

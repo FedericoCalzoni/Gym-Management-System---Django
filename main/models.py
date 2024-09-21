@@ -30,13 +30,6 @@ class Service(models.Model):
     def image_tag(self):
         return mark_safe('<img src="%s" width ="80"/>' %(self.img.url))
 
-class Page(models.Model):
-    title = models.TextField(max_length=100)
-    detail = models.TextField(max_length=100)
-
-    def __str__(self):
-        return self.title
-    
 
 class Faq(models.Model):
     question = models.TextField(max_length=100)

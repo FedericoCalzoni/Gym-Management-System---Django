@@ -7,11 +7,10 @@ from . import views
 from .views import CustomLoginView,CustomLogoutView,RegisterView
 
 urlpatterns = [
-    path('',views.home,name = ''),
-    path('pagedetail/<int:id>',views.page_detail,name = 'page'),    
-    path('Faq/',views.faq_page,name = 'faq'),    
-    path('Contact_us',views.contact_us,name = 'contact_us'),    
+    path('',views.home,name = ''),   
+    path('Faq/',views.faq_page,name = 'faq'),      
     path('Enquiry/',views.enquiry,name = 'enquiry'),    
+    path('pages/<str:page_name>/', views.static_pages, name='static_page'),
     path('Gallery/',views.gallery,name = 'gallery'),    
     path('Gallery_Photos<int:id>/',views.gallery_photos,name = 'gallery_photos'),    
     path('Subscription-Plans/',views.pricing,name = 'pricing'),    
