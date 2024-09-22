@@ -38,7 +38,7 @@
                                     <h6 class="card-text">{{current_plan.plan}}</h6>
                                     <p>Price: {{current_plan.price}} $</p>
                                     <p>Purchased on: {{current_plan.reg_date}} </p>
-                                    <p>Expired on: {{end_date}} </p>
+                                    <p>Expires on: {{end_date}} </p>
 
                                     <!-- Show expiration status and renewal link if the plan has expired -->
                                     {% if is_expired %}
@@ -57,7 +57,7 @@
                                     <p>You haven't subscribed to any plan yet. <a href="{% url 'pricing' %}">See Pricing</a></p>
                                 </div>
                             </div>
-                            
+
                             {% endif %}
 
 

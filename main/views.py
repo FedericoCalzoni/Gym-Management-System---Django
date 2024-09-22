@@ -83,18 +83,34 @@ def gallery_photos(request,id):
 
 
 def pricing(request):
-
     pricing = SubscriptionPlans.objects.annotate(registered_members = Count('subscriptiontype__id')).all().order_by('price')
-    
-    try:
-        current_plan = SubscriptionType.objects.get(user=request.user)
-        end_date = current_plan.reg_date + timedelta(days=current_plan.plan.validity)
-        is_expired = end_date < datetime.now().date()  
-    except SubscriptionType.DoesNotExist:
-        current_plan = None
-        is_expired = True  
 
+    trainer = Trainer.objects.get(pk=request.session['trainerid']) if 'trainerid' in request.session else None
     
+    if request.user.is_authenticated:
+        # Logic for users
+        try:
+            current_plan = SubscriptionType.objects.get(user=request.user)
+            end_date = current_plan.reg_date + timedelta(days=current_plan.plan.validity)
+            is_expired = end_date < datetime.now().date()
+        except SubscriptionType.DoesNotExist:
+            current_plan = None
+            is_expired = True  
+
+    elif trainer:
+        current_plan = None  # Trainers may not have subscription plans
+        is_expired = True  # No subscription logic for trainers
+
+    # elif request.user.is_authenticated:
+    #     # Logic for users
+    #     try:
+    #         current_plan = SubscriptionType.objects.get(user=request.user)
+    #         end_date = current_plan.reg_date + timedelta(days=current_plan.plan.validity)
+    #         is_expired = end_date < datetime.now().date()
+    #     except SubscriptionType.DoesNotExist:
+    #         current_plan = None
+    #         is_expired = True  
+
     distinct_features = SubscriptionPlansFeatures.objects.all()
     context = {'pricing':pricing,'distinct_features':distinct_features,'is_expired':is_expired,'current_plan':current_plan}
 
@@ -195,6 +211,13 @@ def payment_cancel(request):
 # user functionalities
 login_required(login_url='login')
 def dashboard(request):
+    current_plan = None
+    current_trainer = None
+    social_links = {}
+    end_date = None
+    achievements = None
+    is_expired = True
+
     try:
         current_plan = SubscriptionType.objects.get(user=request.user)
         current_trainer = AssignSubscriber.objects.get(subscriber=current_plan)
@@ -204,14 +227,6 @@ def dashboard(request):
 
         social_links = current_trainer.trainer.social_links if current_trainer else {}
         achievements = TrainerAcheivements.objects.filter(trainer=current_trainer.trainer)
-
-    except SubscriptionType.DoesNotExist:
-        current_plan = None
-        current_trainer = None
-        social_links = {}
-        end_date = None
-        achievements = None
-        is_expired = True
 
     except AssignSubscriber.DoesNotExist:
         current_trainer = None

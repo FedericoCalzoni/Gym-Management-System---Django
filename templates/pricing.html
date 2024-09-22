@@ -68,9 +68,6 @@
                                 <!-- If no plan is purchased, allow purchasing -->
                                 <a href="{% url 'checkout' pricings.id %}" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
                             {% endif %}
-                        {% else %}
-                            <!-- If user is not authenticated, show login button -->
-                            <a href="{% url 'login' %}" class="w-100 btn btn-lg btn-outline-primary">Login to Purchase</a>
                         {% endif %}
                     </div>
                 </div>
