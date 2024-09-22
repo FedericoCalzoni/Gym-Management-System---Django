@@ -3,99 +3,121 @@
 {% block content %}
 
 <style type="text/css">
-    .marked{
-        display:none;
+    .marked {
+        display: none;
     }
+
+    .custom-h3 {
+        font-family: 'Helvetica Neue', sans-serif;
+        font-weight: bold;
+    }
+
+    .notif-list li {
+        position: relative; /* Ensures the buttons and icon are positioned relative to the li */
+    }
+
+    .markreadbtn, .marked {
+        position: absolute;
+        right: 10px; /* Adjust as necessary */
+        top: 50%;
+        transform: translateY(-50%); /* Center vertically */
+    }
+
+    .marked {
+        right: 40px; /* Offset the icon slightly left from the "Mark as read" button */
+    }
+
+    .card-header {
+        background-color: #f8f9fa; /* Subtle header background for each notification card */
+        border-bottom: 1px solid #dee2e6;
+        font-weight: bold;
+    }
+
 </style>
 
 <main>
     <!-- Services -->
     <section class="container my-4">
-
         <div class="row">
             <div class="col-3">
                 {% include 'user/left_sidebar.html' %}
             </div>
 
             <div class="col-9">
-                <h3 class="mb-4 border-bottom pb-1 text-center">Notifications <span class="badge bg-primary total_unread "></span></h3>
-
-                <span class="ajaxRes"> 
-
-                </span>
-
-                <ul class="list-group notif-list">
-                </ul>
-
-
+                <div class="card mb-4">
+                    <div class="card-header text-center">
+                        <h3 class="custom-h3">Notifications &nbsp;
+                            <span class="badge bg-primary total_unread" style="position: relative; top: -3px;"></span>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="ajaxRes"></span>
+                        <ul class="list-group notif-list"></ul>
+                    </div>
+                </div>
             </div>
         </div>
-
     </section>
     <!-- End -->
 </main>
-
 
 <script type="text/javascript">
     $(document).ready(function(){
         $(".ajaxRes").hide();
 
         setInterval(function(){
-
             $.ajax({
-                url:"{% url 'get_notifications' %}",
-                dataType:'json',
-                beforeSend:function(){
+                url: "{% url 'get_notifications' %}",
+                dataType: 'json',
+                beforeSend: function() {
                     $(".ajaxRes").show();
                 },
-                success:function(res){
-                    _html='';
+                success: function(res) {
+                    _html = '';
 
                     $(".total_unread").text(res.total_unread);
 
-                    $.each(res.notifications,function(index,d){
-
-                        if(d.notifStatus==true){
-							_html+='<li class="list-group-item list'+d.pk+'">'+d.notify_detail+'<button data-index="'+d.pk+'" data-notifications="'+d.pk+'" class="btn btn-sm btn-secondary float-end markreadbtn markreadbtn'+d.pk+'"" style="display:none;">Mark as read</button><button class="float-end btn btn-success btn-sm marked'+d.pk+'"><i class="bi bi-check-square"></i></button></li>';
-						}else{
-							_html+='<li class="list-group-item bg-light list'+d.pk+'">'+d.notify_detail+'<button data-index="'+d.pk+'" data-notifications="'+d.pk+'" class="btn btn-sm btn-secondary float-end markreadbtn markreadbtn'+d.pk+'"">Mark as read</button><button class="float-end btn btn-success btn-sm marked marked'+d.pk+'"><i class="bi bi-check-square"></i></button></li>';
-						}
-
+                    $.each(res.notifications, function(index, d) {
+                        if (d.notifStatus == true) {
+                            _html += '<li class="list-group-item list'+d.pk+'">'+d.notify_detail+
+                                '<button data-index="'+d.pk+'" data-notifications="'+d.pk+'" class="btn btn-sm btn-secondary float-end markreadbtn markreadbtn'+d.pk+'" style="display:none;">Mark as read</button>'+
+                                '<button class="float-end btn btn-success btn-sm marked'+d.pk+'"><i class="bi bi-check-square fs-6"></i></button></li>';
+                        } else {
+                            _html += '<li class="list-group-item bg-light list'+d.pk+'">'+d.notify_detail+
+                                '<button data-index="'+d.pk+'" data-notifications="'+d.pk+'" class="btn btn-sm btn-secondary float-end markreadbtn markreadbtn'+d.pk+'">Mark as read</button>'+
+                                '<button class="float-end btn btn-success btn-sm marked marked'+d.pk+'"><i class="bi bi-check-square fs-6"></i></button></li>';
+                        }
                     });
+
                     $(".notif-list").html(_html);
                     $(".ajaxRes").hide();
                 }
             });
-        },5000);
+        }, 5000);
 
         // Mark as read Section start
-
-        $(document).on("click",".markreadbtn",function(){
+        $(document).on("click", ".markreadbtn", function() {
             var _index = $(this).attr("data-index");
             var _notifications = $(this).attr("data-notifications");
 
             $.ajax({
-                url:"{% url 'mark_read_notifications' %}",
-                data:{
+                url: "{% url 'mark_read_notifications' %}",
+                data: {
                     notifications: _notifications
                 },
-                beforeSend:function(){
-                   
+                beforeSend: function() {
+                    // Handle loading
                 },
-
-                success:function(res){
-                    if(res.bool == true){
+                success: function(res) {
+                    if (res.bool == true) {
                         $(".list"+_index).removeClass('bg-light');
                         $(".markreadbtn"+_index).hide();
                         $(".marked"+_index).show();
-  
                     }
                 }
             });
         });
-
         // End
-
     });
 </script>
 
