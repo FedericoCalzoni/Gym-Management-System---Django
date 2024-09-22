@@ -1,33 +1,79 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <main>
-		<!-- Services -->
-		<section class="container my-4">
-			<div class="row">
-				<div class="col-3">
-					{% include 'trainer/left_sidebar.html' %}
+<style>
+	.custom-h3 {
+        font-family: 'Helvetica Neue', sans-serif;
+        font-weight: bold;
+    }
+</style>
+<main>
+	<!-- Services -->
+	<section class="container my-4">
+		<div class="row">
+			<div class="col-3">
+				{% include 'trainer/left_sidebar.html' %}
+			</div>
+			<div class="col-9">
+				<h3 class="mb-4 border-bottom pb-1 text-center custom-h3">Payments</h3>
+
+				<!-- Payment Summary Card -->
+				<div class="card mb-4 shadow">
+					<div class="card-body">
+						<h5 class="card-title">Payment Summary</h5>
+						<p class="card-text">Total Payments: {{ trainer_payments|length }}</p>
+						<p class="card-text">Total Amount: {{ total_amount }}</p>
+					</div>
 				</div>
-				<div class="col-9">
-					<h3 class="mb-4 border-bottom pb-1 text-center">Payments</h3>
-					<table class="table table-bordered">
+
+				<!-- Payments Table -->
+				<table class="table table-bordered table-hover">
+					<thead class="thead-dark">
 						<tr>
 							<th>Amount</th>
-							<th>Deposit Data</th>
+							<th>Deposit Date</th>
 							<th>Remarks</th>
 						</tr>
+					</thead>
+					<tbody>
 						{% for tp in trainer_payments %}
 						<tr>
-							<td>{{tp.amount}}</td>
-							<td>{{tp.deposit_date}}</td>
-							<td>{{tp.remarks}}</td>
+							<td>{{ tp.amount }}</td>
+							<td>{{ tp.deposit_date }}</td>
+							<td>{{ tp.remarks }}</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="3" class="text-center">No payments found.</td>
 						</tr>
 						{% endfor %}
-					</table>
-				</div>
+					</tbody>
+				</table>
 			</div>
-		</section>
-		<!-- End -->
-    </main>
-    <!-- End -->
+		</div>
+	</section>
+	<!-- End -->
+</main>
+<!-- End -->
+
+<style>
+.card {
+    background-color: #f8f9fa; /* Light background */
+    border: 1px solid #ced4da; /* Border color */
+}
+
+.table {
+    background-color: #ffffff; /* White background for the table */
+}
+
+.table th {
+    background-color: #343a40; /* Dark background for header */
+    color: white; /* White text for header */
+}
+
+.table td {
+    vertical-align: middle; /* Center align cell content */
+}
+</style>
+
 {% endblock %}

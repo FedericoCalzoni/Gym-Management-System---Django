@@ -1,21 +1,57 @@
 <style>
     .list-group {
-    margin-top: 0; /* Ensure consistent margin */
-}
-.left-sidebar {
-    position: sticky;
-    top: 0;
-  
-}
+        margin-top: 0; /* Ensure consistent margin */
+    }
+    .left-sidebar {
+        position: sticky;
+        top: 0;
+    }
+    .list-group-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .list-group-item i {
+        font-size: 1.5rem; /* Icon size */
+    }
+    .name-label {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #007bff;
+        text-align: center;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        padding: 5px;
+        text-transform: capitalize;
+    }
 </style>
 
-<div class="list-group ">
-    <a href="{% url 'trainer_dashboard' %}" class="list-group-item {% if request.path == '/Trainer-Dashboard' %} active {% endif %}">Dashboard</a>
-    <a href="{% url 'trainer_assigned_subscribers'%}" class="list-group-item {% if request.path == '/Assigned-Subscribers' %} active {% endif %}">My subscribers</a>
-    <a href="{% url 'trainer_payments' %}" class="list-group-item {% if request.path == '/Payments' %} active {% endif %}">Payments</a>
-    <a href="{% url 'trainer_messages' %}" class="list-group-item {% if request.path == '/Messages' %} active {% endif %}">Messages <span class="float-end badge bg-info mt-1">123</span></a>
-    <a href="{% url 'trainer_notifications' %}" class="list-group-item {% if request.path == '/Trainer-Notifications' %} active {% endif %}">Notifications <span class="float-end badge bg-info mt-1 total_unread">{{unread_count}}</span></a>
-    <a href="{% url 'trainer_change_password' %}" class="list-group-item {% if request.path == '/Change-Password' %} active {% endif %}">Change Password</a>
-    <a href="{% url 'report_to_user' %}" class="list-group-item {% if request.path == '/Report-to-user' %} active {% endif %}">Report to users</a>
-    <a href="{% url 'trainer_edit_profile' %}" class="list-group-item {% if request.path == '/Account-Settings' %} active {% endif %}">Settings</a>
+
+<div class="list-group">
+    <a href="{% url 'trainer_dashboard' %}" class="list-group-item {% if request.path == '/Trainer-Dashboard' %} active {% endif %}">
+        <i class="bi bi-house"></i> Dashboard
+    </a>
+    <a href="{% url 'trainer_assigned_subscribers'%}" class="list-group-item {% if request.path == '/Assigned-Subscribers' %} active {% endif %}">
+        <i class="bi bi-people"></i> My Subscribers
+    </a>
+    <a href="{% url 'trainer_payments' %}" class="list-group-item {% if request.path == '/Payments' %} active {% endif %}">
+        <i class="bi bi-cash"></i> Payments
+    </a>
+    <a href="{% url 'trainer_messages' %}" class="list-group-item {% if request.path == '/Messages' %} active {% endif %}">
+        <i class="bi bi-chat-dots"></i> Messages 
+        <span class="float-end badge bg-info mt-1 ms-auto">123</span>
+    </a>
+    <a href="{% url 'trainer_notifications' %}" class="list-group-item {% if request.path == '/Trainer-Notifications' %} active {% endif %}">
+        <i class="bi bi-bell"></i> Notifications 
+        <span class="float-end badge bg-info mt-1 ms-auto">{{unread_count}}</span>
+    </a>
+    <a href="{% url 'trainer_change_password' %}" class="list-group-item {% if request.path == '/Change-Password' %} active {% endif %}">
+        <i class="bi bi-lock"></i> Change Password
+    </a>
+    <a href="{% url 'report_to_user' %}" class="list-group-item {% if request.path == '/Report-to-user' %} active {% endif %}">
+        <i class="bi bi-flag"></i> Report to Users
+    </a>
+    <a href="{% url 'trainer_edit_profile' %}" class="list-group-item {% if request.path == '/Account-Settings' %} active {% endif %}">
+        <i class="bi bi-gear"></i> Settings
+    </a>
 </div>

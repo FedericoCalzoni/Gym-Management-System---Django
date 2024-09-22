@@ -37,7 +37,7 @@
         <i class="bi bi-house"></i> Dashboard
     </a>
     <a href="{% url 'notifications' %}" class="list-group-item {% if request.path == '/Notifications' %} active {% endif %}">
-        <i class="bi bi-bell"></i> Notifications <span class="float-end badge bg-info mt-1">{{total_unread}}</span>
+        <i class="bi bi-bell"></i> Notifications <span class="float-end badge bg-info mt-1 ms-auto">{{total_unread}}</span>
     </a>
     <a href="#" class="list-group-item">
         <i class="bi bi-chat-dots"></i> Messages

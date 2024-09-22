@@ -2,6 +2,13 @@
 {% load static %}
 {% block content %}
 
+<style>
+	.custom-h3 {
+        font-family: 'Helvetica Neue', sans-serif;
+        font-weight: bold;
+    }
+</style>
+
 <main>
     <section class="container my-4">
 
@@ -11,7 +18,7 @@
             </div>
 
             <div class="col-9">
-                <h3 class="mb-4 border-bottom pb-1 text-center">
+                <h3 class="mb-4 border-bottom pb-1 text-center custom-h3">
                     Notifications  
                     <span class="badge bg-info total_unread" style="position: relative; top: -3px;">{{unread_count}}</span>
                     <span class="btn btn-info btn-sm float-end mark-all-read-btn" style="margin-left: 10px;">Mark all as read</span>

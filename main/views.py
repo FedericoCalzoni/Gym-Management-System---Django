@@ -367,7 +367,6 @@ def trainer_login(request):
 
     return render(request, 'trainer/login.html',context)
 
-
 def trainer_logout(request):
     del request.session['trainer_login']
     messages.success(request,'Logged out successfully!')
@@ -375,9 +374,10 @@ def trainer_logout(request):
 
 
 def trainer_dashboard(request):
-    if not request.session.get('trainer_login'):
-        return redirect('trainer_login')
-    return render(request, 'trainer/dashboard.html')
+    trainer = Trainer.objects.get(pk=request.session['trainerid'])
+    achievement = TrainerAcheivements.objects.filter(trainer = trainer)[:3]
+    context ={'trainer':trainer,'achievement':achievement}
+    return render(request, 'trainer/dashboard.html',context)
 
 
 def trainer_change_password(request):
@@ -439,8 +439,9 @@ def trainer_assigned_subscribers(request):
 def trainer_payments(request):
     trainer = Trainer.objects.get(pk=request.session['trainerid'])
     trainer_payments = TrainerSalary.objects.filter(trainer = trainer)
+    total_amount = sum(tp.amount for tp in trainer_payments)
 
-    context = {'trainer_payments': trainer_payments}
+    context = {'trainer_payments': trainer_payments,'total_amount': total_amount,}
 
     return render(request, 'trainer/payments.html',context)
 

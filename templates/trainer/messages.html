@@ -2,6 +2,12 @@
 {% load static %}
 {% block content %}
 
+<style>
+	.custom-h3 {
+        font-family: 'Helvetica Neue', sans-serif;
+        font-weight: bold;
+    }
+</style>
 <main>
     <section class="container my-4">
 
@@ -11,7 +17,7 @@
             </div>
 
             <div class="col-9">
-                <h3 class="mb-4 border-bottom pb-1 text-center">Messages  <span class="badge bg-info" style="position: relative; top: -3px;">{{data.count}}</span></a></h3>
+                <h3 class="mb-4 border-bottom pb-1 text-center custom-h3">Messages  <span class="badge bg-info" style="position: relative; top: -3px;">{{data.count}}</span></a></h3>
 
                 <table class="table table-bordered">
                     <thead>
