@@ -3,82 +3,76 @@
 {% block content %}
 <style>
     .trainer-img {
-    width: 300px;  
-    height: auto;  
-    margin-left: 3%;
-    padding-top: 10px;
-}
-.card-footer {
+        width: 200px;
+        height: auto;
+        margin-left: 3%;
+        padding-top: 10px;
+    }
+    .card-footer {
         display: flex;
         gap: 24px; /* Adjust the value to control the space between icons */
+    }
+    .custom-h3 {
+        font-family: 'Helvetica Neue', sans-serif;
+        font-weight: bold;
     }
 </style>
 
 <main>
-    
     <!-- Services -->
     <section class="container my-4">
-
         <div class="row">
             <div class="col-3">
                 {% include 'user/left_sidebar.html' %}
             </div>
 
             <div class="col-9">
-                <h3 class="mb-4 border-bottom pb-1 text-center">Dashboard</h3>
+                <h3 class="mb-4 border-bottom pb-1 text-center custom-h3">Dashboard</h3>
 
-                <div class="row">
+                <div class="row g-3"> <!-- Add grid gap -->
 
+                    <!-- Current Package -->
                     <div class="col-md-6">
                         {% if current_plan %}
-                            <div class="card">
+                            <div class="card shadow">
                                 <h5 class="card-header">Current package</h5>
-
                                 <div class="card-body">
                                     <h6 class="card-text">{{current_plan.plan}}</h6>
                                     <p>Price: {{current_plan.price}} $</p>
-                                    <p>Purchased on: {{current_plan.reg_date}} </p>
-                                    <p>Expires on: {{end_date}} </p>
-
-                                    <!-- Show expiration status and renewal link if the plan has expired -->
+                                    <p>Purchased on: {{current_plan.reg_date}}</p>
+                                    <p>Expires on: {{end_date}}</p>
                                     {% if is_expired %}
-                                    <p class="text-danger">Status: Expired</p>
-                                    <a href="{% url 'pricing' %}" class="btn btn-outline-primary">Renew Subscription</a>
+                                        <p class="text-danger">Status: Expired</p>
+                                        <a href="{% url 'pricing' %}" class="btn btn-outline-primary">Renew Subscription</a>
                                     {% else %}
-                                    <p class="text-success">Status: Active</p>
+                                        <p class="text-success">Status: Active</p>
                                     {% endif %}
                                 </div>
                             </div>
-                            {% else %}
-                            <div class="card">
+                        {% else %}
+                            <div class="card shadow">
                                 <h5 class="card-header">No subscription yet</h5>
-
                                 <div class="card-body">
                                     <p>You haven't subscribed to any plan yet. <a href="{% url 'pricing' %}">See Pricing</a></p>
                                 </div>
                             </div>
-
-                            {% endif %}
-
-
+                        {% endif %}
                     </div>
 
-
+                    <!-- My Trainer -->
                     <div class="col-md-6">
-
                         {% if current_trainer %}
-                            <div class="card">
+                            <div class="card shadow">
                                 <h5 class="card-header">My Trainer</h5>
                                 <img src="{{current_trainer.trainer.img.url}}" class="card-img-top trainer-img" alt="{{ current_trainer.trainer.full_name }}">
                                 <div class="card-body">
-                                    <h6 class="card-text"><b>{{ current_trainer.trainer.full_name }}</b></h6>
+                                    <h6 class="card-text name-label">{{ current_trainer.trainer.full_name }}</h6> <!-- Updated name display -->
                                 </div>
-
                                 <div class="card-footer">
                                     <a href="{{social_links.facebook}}" title="Facebook"><i class="bi bi-facebook fs-3"></i></a>
                                     <a href="{{social_links.twitter}}" title="Twitter"><i class="bi bi-twitter fs-3"></i></a>
                                     <a href="{{social_links.linkedin}}" title="Linkedin"><i class="bi bi-linkedin fs-3"></i></a>
-                                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" title="Acheivements" class="btn btn-primary btn-sm ms-auto "><i class="bi bi-trophy-fill "></i></button>
+                                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" title="Achievements" class="btn btn-primary btn-sm ms-auto"><i class="bi bi-trophy-fill"></i></button>
 
                                     <!-- modal for Acheivements -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -129,7 +123,6 @@
                                       <!-- modal end -->
 
                                 </div>
-
                             </div>
                         {% else %}
                             <div class="card">
@@ -139,15 +132,47 @@
                                 </div>
                             </div>
                         {% endif %}
+                    </div>
 
+                    <!-- Workout Summary -->
+                    <div class="col-md-6 " style="margin-top: -205px;">
+                        <div class="card shadow">
+                            <h5 class="card-header">Workout Summary</h5>
+                            <div class="card-body">
+                                <p>Workouts this week: 5</p>
+                                <p>Hours worked out: 8 hrs</p>
+                                <p>Calories burned: 2500 cal</p>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Health Tip of the Day -->
+                    <div class="col-md-6">
+                        <div class="card shadow">
+                            <h5 class="card-header">Health Tip of the Day</h5>
+                            <div class="card-body">
+                                <p>"Stay hydrated! Drinking water boosts your energy levels and improves your mood."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activities -->
+                    <div class="col-md-6"style="margin-top: -155px;">
+                        <div class="card shadow">
+                            <h5 class="card-header">Recent Activities</h5>
+                            <div class="card-body">
+                                <ul>
+                                    <li>Completed 'Cardio Session'</li>
+                                    <li>Trainer approved new workout plan</li>
+                                    <li>Subscription renewed on Feb 1, 2025</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
             </div>
         </div>
-
     </section>
-    <!-- End -->
 </main>
 {% endblock %}

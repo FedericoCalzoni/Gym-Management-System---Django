@@ -1,19 +1,54 @@
 <style>
     .list-group {
-    margin-top: 0; /* Ensure consistent margin */
-}
-.left-sidebar {
-    position: sticky;
-    top: 0;
-}
+        margin-top: 0;
+    }
+    .left-sidebar {
+        position: sticky;
+        top: 0;
+    }
+    .list-group-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .list-group-item i {
+        font-size: 1.5rem; /* Icon size */
+    }
+    .name-label {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #007bff;
+        text-align: center;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        padding: 5px;
+        text-transform: capitalize;
+    }
 </style>
 
-
-    <div class="list-group">
-        <a href="{% url 'dashboard' %}" class="list-group-item  {% if request.path == '/Dashboard' %} active {% endif %}">Dashboard</a>
-        <a href="{% url 'notifications' %}" class="list-group-item {% if request.path == '/Notifications' %} active {% endif %}">Notifications <span class="float-end badge bg-info mt-1">{{total_unread}}</span></a>
-        <a href="#" class="list-group-item">Messages</a>
-        <a href="{% url 'report_to_trainer' %}" class="list-group-item  {% if request.path == '/Report-To-Trainer' %} active {% endif %}">Report to Trainer</a>
-        <a href="{% url 'update_profile' %}" class="list-group-item {% if request.path == '/Edit-Profile' %} active {% endif %} ">Settings</a>
-
+<div class="card mb-1">
+    <div class="card-body text-center">
+        <h5 class="name-label">@ {{ user.username }}</h5>
     </div>
+</div>
+
+<div class="list-group">
+    <a href="{% url 'dashboard' %}" class="list-group-item {% if request.path == '/Dashboard' %} active {% endif %}">
+        <i class="bi bi-house"></i> Dashboard
+    </a>
+    <a href="{% url 'notifications' %}" class="list-group-item {% if request.path == '/Notifications' %} active {% endif %}">
+        <i class="bi bi-bell"></i> Notifications <span class="float-end badge bg-info mt-1">{{total_unread}}</span>
+    </a>
+    <a href="#" class="list-group-item">
+        <i class="bi bi-chat-dots"></i> Messages
+    </a>
+    <a href="{% url 'report_to_trainer' %}" class="list-group-item {% if request.path == '/Report-To-Trainer' %} active {% endif %}">
+        <i class="bi bi-flag"></i> Report to Trainer
+    </a>
+    <a href="{% url 'update_profile' %}" class="list-group-item {% if request.path == '/Edit-Profile' %} active {% endif %}">
+        <i class="bi bi-gear"></i> Settings
+    </a>
+    <a href="{% url 'static_page' 'contact_us' %}" class="list-group-item">
+        <i class="bi bi-envelope"></i> Contact Support
+    </a>
+</div>
