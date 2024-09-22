@@ -31,27 +31,34 @@
 
                     <div class="col-md-6">
                         {% if current_plan %}
-                        <div class="card">
-                            <h5 class="card-header">Current package</h5>
+                            <div class="card">
+                                <h5 class="card-header">Current package</h5>
 
-                            <div class="card-body">
-                                <h6 class="card-text">{{current_plan.plan}}</h6>
-                                <p>Price: {{current_plan.price}} $</p>
-                                <p>Purchased on: {{current_plan.reg_date}} </p>
-                                <p>Expired on: {{end_date}} </p>
+                                <div class="card-body">
+                                    <h6 class="card-text">{{current_plan.plan}}</h6>
+                                    <p>Price: {{current_plan.price}} $</p>
+                                    <p>Purchased on: {{current_plan.reg_date}} </p>
+                                    <p>Expired on: {{end_date}} </p>
+
+                                    <!-- Show expiration status and renewal link if the plan has expired -->
+                                    {% if is_expired %}
+                                    <p class="text-danger">Status: Expired</p>
+                                    <a href="{% url 'pricing' %}" class="btn btn-outline-primary">Renew Subscription</a>
+                                    {% else %}
+                                    <p class="text-success">Status: Active</p>
+                                    {% endif %}
+                                </div>
                             </div>
+                            {% else %}
+                            <div class="card">
+                                <h5 class="card-header">No subscription yet</h5>
 
-                        </div>
-                        {% else %}
-                        <div class="card">
-                            <h5 class="card-header">No subscription yet</h5>
-
-                            <div class="card-body">
-                                <p>You haven't subscribed to any plan yet. <a href="{% url 'pricing' %}">See Pricing</a></p>
+                                <div class="card-body">
+                                    <p>You haven't subscribed to any plan yet. <a href="{% url 'pricing' %}">See Pricing</a></p>
+                                </div>
                             </div>
-
-                        </div>
-                        {% endif %}
+                            
+                            {% endif %}
 
 
                     </div>

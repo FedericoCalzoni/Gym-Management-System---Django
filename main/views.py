@@ -11,9 +11,9 @@ from django.contrib import messages
 from django.contrib.auth.views import LoginView,LogoutView
 from django.views.generic import CreateView
 
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse
 from django.db.models import Count
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from django.contrib.auth.decorators import login_required
 import stripe
@@ -39,11 +39,8 @@ def static_pages(request, page_name):
 
     template_name = templates.get(page_name)
 
-    if template_name:
-        return render(request, template_name)
-    else:
-        raise Http404("Page not found")
-
+    return render(request, template_name)
+   
 
 def faq_page(request):
 
@@ -61,7 +58,7 @@ def enquiry(request):
 
         if(form.is_valid()):
             form.save()
-            msg = "Data has been saved successfully!"
+            msg = "Enquiry has been sent!"
 
     form = EnquiryForms
     context = {'form':form,'msg':msg}
@@ -88,8 +85,18 @@ def gallery_photos(request,id):
 def pricing(request):
 
     pricing = SubscriptionPlans.objects.annotate(registered_members = Count('subscriptiontype__id')).all().order_by('price')
+    
+    try:
+        current_plan = SubscriptionType.objects.get(user=request.user)
+        end_date = current_plan.reg_date + timedelta(days=current_plan.plan.validity)
+        is_expired = end_date < datetime.now().date()  
+    except SubscriptionType.DoesNotExist:
+        current_plan = None
+        is_expired = True  
+
+    
     distinct_features = SubscriptionPlansFeatures.objects.all()
-    context = {'pricing':pricing,'distinct_features':distinct_features}
+    context = {'pricing':pricing,'distinct_features':distinct_features,'is_expired':is_expired,'current_plan':current_plan}
 
     return render(request, 'pricing.html',context)
 
@@ -191,7 +198,9 @@ def dashboard(request):
     try:
         current_plan = SubscriptionType.objects.get(user=request.user)
         current_trainer = AssignSubscriber.objects.get(subscriber=current_plan)
+
         end_date = current_plan.reg_date+timedelta(days = current_plan.plan.validity)
+        is_expired = end_date < datetime.now().date()
 
         social_links = current_trainer.trainer.social_links if current_trainer else {}
         achievements = TrainerAcheivements.objects.filter(trainer=current_trainer.trainer)
@@ -202,6 +211,7 @@ def dashboard(request):
         social_links = {}
         end_date = None
         achievements = None
+        is_expired = True
 
     except AssignSubscriber.DoesNotExist:
         current_trainer = None
@@ -225,7 +235,7 @@ def dashboard(request):
         if not notifStatus:
             total_unread+=1
  
-    context= {'current_plan': current_plan,'current_trainer': current_trainer,'total_unread': total_unread,'end_date':end_date,'social_links':social_links,'achievements':achievements}
+    context= {'current_plan': current_plan,'current_trainer': current_trainer,'total_unread': total_unread,'end_date':end_date,'social_links':social_links,'achievements':achievements,'is_expired':is_expired}
  
 
     return render(request, 'user/dashboard.html',context)

@@ -4,19 +4,17 @@
 {% block content %}
 {% load mathfilters %}
 
-
 <style>
     .card {
-      height: 100%; /* Ensure all cards take equal height */
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Increased shadow */
-      transition: transform 0.2s; /* Add transition for hover effect */
+      height: 100%;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s;
     }
-  
-    .card:hover {
-      transform: translateY(-5px); /* Raise card on hover */
-    }
-  </style>
 
+    .card:hover {
+      transform: translateY(-5px);
+    }
+</style>
 
 <section class="container my-4">
   <h1 class="text-center mb-4 section-heading border-bottom pb-2">Subscription Plans</h1>
@@ -44,19 +42,35 @@
                         <li><strong><b>.</b></strong> {{ features.title }}</li>
                         {% endfor %}
                     </ul>
-                    <div class="mt-auto"> <!-- This makes the button stay at the bottom -->
-                        {% check_purchased_package request.user.id as has_purchased_any_plan %}
+                    <div class="mt-auto">
+                        
                         {% if user.is_authenticated %}
+                            {% check_purchased_package request.user.id as has_purchased_any_plan %}
                             {% check_purchased_package request.user.id pricings.id as checkpackage %}
+
                             {% if checkpackage %}
-                                <a href="#" class="w-100 btn btn-lg btn-dark disabled">Purchased</a>
-                            {% else %}
-                                {% if has_purchased_any_plan %}
-                                    <a href="#" class="w-100 btn btn-lg btn-outline-secondary disabled">Unavailable</a>
+                                {% if is_expired %}
+                                    <!-- Allow renewing the expired plan -->
+                                    <a href="{% url 'checkout' pricings.id %}" class="w-100 btn btn-lg btn-outline-primary">Get Started</a>
                                 {% else %}
-                                    <a href="{% url 'checkout' pricings.id %}" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
+                                    <!-- If plan is active, show purchased button -->
+                                    <a href="#" class="w-100 btn btn-lg btn-dark disabled">Purchased</a>
                                 {% endif %}
+                            {% elif has_purchased_any_plan %}
+                                {% if is_expired %}
+                                    <!-- If any plan is expired, allow purchasing new plan -->
+                                    <a href="{% url 'checkout' pricings.id %}" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
+                                {% else %}
+                                    <!-- Disable other plans if there's an active plan -->
+                                    <a href="#" class="w-100 btn btn-lg btn-outline-secondary disabled">Unavailable</a>
+                                {% endif %}
+                            {% else %}
+                                <!-- If no plan is purchased, allow purchasing -->
+                                <a href="{% url 'checkout' pricings.id %}" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
                             {% endif %}
+                        {% else %}
+                            <!-- If user is not authenticated, show login button -->
+                            <a href="{% url 'login' %}" class="w-100 btn btn-lg btn-outline-primary">Login to Purchase</a>
                         {% endif %}
                     </div>
                 </div>
@@ -66,6 +80,5 @@
       </div>
   </main>
 </section>
-
 
 {% endblock %}
