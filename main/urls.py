@@ -15,6 +15,10 @@ urlpatterns = [
     path('Gallery_Photos<int:id>/',views.gallery_photos,name = 'gallery_photos'),    
     path('Subscription-Plans/',views.pricing,name = 'pricing'),    
 
+
+    path('Trainer-Default-Chat/',views.trainer_default_chat,name = 'trainer_default_chat'),    
+    path('Trainer-Chat/<int:subscriber_id>/',views.trainer_chat,name = 'trainer_chat'),    
+
     # User
     path('Login', CustomLoginView.as_view(),name= 'login'), 
     path('Logout', CustomLogoutView.as_view(),name= 'logout'), 
@@ -23,7 +27,10 @@ urlpatterns = [
     path('Edit-Profile', views.update_profile,name= 'update_profile'), 
     path('Report-To-Trainer', views.report_to_trainer,name= 'report_to_trainer'), 
 
+
+    path('Subscriber-Chat', views.subscriber_chat,name= 'subscriber_chat'), 
     
+
     path('Plan_Details/<int:plan_id>', views.checkout,name= 'checkout'), 
     path('Checkout/<int:plan_id>', views.checkout_session,name= 'checkout_session'), 
 

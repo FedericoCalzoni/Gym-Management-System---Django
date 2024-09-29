@@ -345,6 +345,31 @@ def report_to_trainer(request):
     return render(request, 'user/report_to_trainers.html',context)
 
 
+# for subscriber chat to trainers
+def subscriber_chat(request):
+    try:
+        subscription = request.user
+        subscriber = SubscriptionType.objects.get(user=subscription)
+        assignment = AssignSubscriber.objects.get(subscriber=subscriber) 
+        trainer = assignment.trainer
+        trainer_name = trainer.username
+
+    except AssignSubscriber.DoesNotExist:
+        subscriber = None
+        trainer = None
+
+    context = {
+        'subscriber': subscriber,
+        'trainer': trainer,
+        'is_trainer': False, 
+        'subscriber_id': assignment.id,
+        'trainer_name':trainer_name,
+        'sender':'You'
+    }
+
+    return render(request, 'chat.html', context)
+
+
 # Trainer logic
 def trainer_login(request):
 
@@ -468,6 +493,34 @@ def trainer_messages(request):
 
     return render(request, 'trainer/messages.html',context)
 
+
+# for trainers chat
+def trainer_default_chat(request):
+    if request.session.get('trainerid'):
+        trainer = Trainer.objects.get(pk=request.session['trainerid'])
+        first_subscriber = AssignSubscriber.objects.filter(trainer=trainer).first()
+
+        # Redirect to the chat with the first subscriber's ID
+        if first_subscriber:
+            return redirect('trainer_chat', subscriber_id=first_subscriber.id)
+        
+
+def trainer_chat(request, subscriber_id):
+    if request.session.get('trainerid'):
+        trainer = Trainer.objects.get(pk=request.session['trainerid'])
+        subscribers = AssignSubscriber.objects.filter(trainer=trainer)
+
+        # Get the selected subscriber based on the passed subscriber_id
+        selected_subscriber = AssignSubscriber.objects.get(pk=subscriber_id)
+        context = {
+            'subscribers': subscribers,
+            'selected_subscriber': selected_subscriber,
+            'sender':'You',
+            'is_trainer': True
+
+        }
+        return render(request, 'chat.html', context)
+    
 
 def report_to_user(request):
 
