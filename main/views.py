@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Banners ,Service,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerMessage, TrainerNotification, TrainerSalary
+from .models import Banners ,Service,Faq ,Gallery,GalleryImages,SubscriptionPlans,SubscriptionPlansFeatures, SubscriptionType,Trainer,Notify,NotifUserStatus,AssignSubscriber,TrainerAcheivements, TrainerNotification, TrainerSalary
 
 from .forms import EditTrainerPasswordForm, LoginForm,CreateUserForm,EnquiryForms,EditUserProfileForm,TrainerLoginForm,EditTrainerProfileForm,ReportToTrainerForm,ReportToUserForm
 from django.contrib.auth.forms import PasswordChangeForm
@@ -484,15 +484,7 @@ def mark_all_as_read(request):
     if request.method == 'POST':
         TrainerNotification.objects.filter(is_read=False).update(is_read=True)
         return JsonResponse({'success': True})
-
-
-def trainer_messages(request):
-    data = TrainerMessage.objects.all().order_by('-id')
-
-    context = {'data':data}
-
-    return render(request, 'trainer/messages.html',context)
-
+    
 
 # for trainers chat
 def trainer_default_chat(request):

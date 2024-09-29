@@ -255,19 +255,6 @@ class AssignSubscriber(models.Model):
         return str(self.subscriber)
     
 
-# Subscriber messages to trainer 
-class TrainerMessage(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True)
-    message = models.TextField()
-
-    class Meta:
-        verbose_name_plural = 'Messages to Trainers'
-
-    def __str__(self) -> str:
-        return self.message
-
-
 class TrainerSubscriberReport(models.Model):
     sender_trainer = models.ForeignKey(Trainer, null=True, blank=True, on_delete=models.CASCADE, related_name='reports_sent_as_trainer')
     sender_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='reports_sent_as_user')

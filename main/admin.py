@@ -109,12 +109,6 @@ class TrainerNotificationAdmin(admin.ModelAdmin):
 admin.site.register(models.TrainerNotification, TrainerNotificationAdmin)
 
 
-class TrainerMessageAdmin(admin.ModelAdmin):
-    list_display = ('user','trainer','message')
-
-admin.site.register(models.TrainerMessage, TrainerMessageAdmin)
-
-
 class TrainerSubscriberReportAdmin(admin.ModelAdmin):
     list_display = ('get_sender', 'get_receiver', 'report_msg', 'created_at')
 

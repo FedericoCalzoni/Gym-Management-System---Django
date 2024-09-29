@@ -14,11 +14,7 @@ urlpatterns = [
     path('Gallery/',views.gallery,name = 'gallery'),    
     path('Gallery_Photos<int:id>/',views.gallery_photos,name = 'gallery_photos'),    
     path('Subscription-Plans/',views.pricing,name = 'pricing'),    
-
-
-    path('Trainer-Default-Chat/',views.trainer_default_chat,name = 'trainer_default_chat'),    
-    path('Trainer-Chat/<int:subscriber_id>/',views.trainer_chat,name = 'trainer_chat'),    
-
+  
     # User
     path('Login', CustomLoginView.as_view(),name= 'login'), 
     path('Logout', CustomLogoutView.as_view(),name= 'logout'), 
@@ -26,8 +22,6 @@ urlpatterns = [
     path('Dashboard', views.dashboard,name= 'dashboard'), 
     path('Edit-Profile', views.update_profile,name= 'update_profile'), 
     path('Report-To-Trainer', views.report_to_trainer,name= 'report_to_trainer'), 
-
-
     path('Subscriber-Chat', views.subscriber_chat,name= 'subscriber_chat'), 
     
 
@@ -48,8 +42,9 @@ urlpatterns = [
     path('Payments', views.trainer_payments,name= 'trainer_payments'),
     path('Trainer-Notifications', views.trainer_notifications,name= 'trainer_notifications'),
     path('notifications/mark_all_as_read', views.mark_all_as_read,name= 'mark_all_as_read'),
-    path('Messages', views.trainer_messages,name= 'trainer_messages'),
     path('Report-to-user', views.report_to_user,name= 'report_to_user'),
+    path('Trainer-Default-Chat/',views.trainer_default_chat,name = 'trainer_default_chat'),    
+    path('Trainer-Chat/<int:subscriber_id>/',views.trainer_chat,name = 'trainer_chat'),  
     
 
     # Notifications
