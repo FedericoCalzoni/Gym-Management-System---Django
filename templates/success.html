@@ -1,11 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
 <main>
-    <!-- Services -->
     <section class="container my-4">
-        <h3 class="text-center mb-4 section-heading border-bottom pb-2">Thanks! Your payment is successfull</h3>
+        <!-- Success Message -->
+        <h3 class="text-center mb-4 section-heading border-bottom pb-2 text-success">Thanks! Your payment was successful</h3>
+
+        <!-- Receipt Card -->
+        <div class="card mx-auto" style="max-width: 600px;">
+            <div class="card-header text-white bg-success">
+                <h5 class="card-title text-center mb-0">Payment Receipt</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Subscription Plan:</th>
+                            <td>{{ plan.title }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Price:</th>
+                            <td>{{ plan.price }} USD</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Max Members Allowed:</th>
+                            <td>{{ plan.max_members }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Validity:</th>
+                            <td>{{ plan.validity }} days</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Subscription Date:</th>
+                            <td>{{ subscription_date|date:"M d, Y" }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="text-center mt-4">
+            <a href="{% url 'dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
+        </div>
     </section>
-    <!-- End -->
 </main>
 {% endblock %}

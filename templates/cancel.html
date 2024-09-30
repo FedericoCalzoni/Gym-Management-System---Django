@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
 <main>
-    <!-- Services -->
     <section class="container my-4">
-        <h3 class="text-center mb-4 section-heading border-bottom pb-2">Oops! Your payment is Canceled</h3>
+        <!-- Cancel Message -->
+        <h3 class="text-center mb-4 section-heading border-bottom pb-2 text-danger">Oops! Your payment was cancelled</h3>
+
+        <!-- Encouraging Message -->
+        <p class="text-center mb-4">It looks like something went wrong with your payment. Don't worry, you can try again or choose a different plan!</p>
+
+        <!-- Action Buttons -->
+        <div class="text-center">
+            <a href="{% url 'pricing' %}" class="btn btn-secondary mb-2">View Pricing Plans</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary mb-2">Go to Dashboard</a>
+        </div>
     </section>
-    <!-- End -->
 </main>
 {% endblock %}

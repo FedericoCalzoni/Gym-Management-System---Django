@@ -195,13 +195,17 @@ def payment_successfull(request):
     plan = SubscriptionPlans.objects.get(pk = plan_id)
     user = request.user
 
-    SubscriptionType.objects.create(
+    subscription = SubscriptionType.objects.create(
         plan = plan,
         user = user,
         price = plan.price
         )
     
-    return render(request, 'success.html')
+    context = {
+        'plan': plan,
+        'subscription_date': subscription.reg_date
+    }
+    return render(request, 'success.html',context)
 
 
 def payment_cancel(request):
@@ -209,7 +213,7 @@ def payment_cancel(request):
 
 
 # user functionalities
-login_required(login_url='login')
+@login_required(login_url='login')
 def dashboard(request):
     current_plan = None
     current_trainer = None
@@ -220,40 +224,41 @@ def dashboard(request):
 
     try:
         current_plan = SubscriptionType.objects.get(user=request.user)
-        current_trainer = AssignSubscriber.objects.get(subscriber=current_plan)
+    except SubscriptionType.DoesNotExist:
+        current_plan = None
 
-        end_date = current_plan.reg_date+timedelta(days = current_plan.plan.validity)
-        is_expired = end_date < datetime.now().date()
+    if current_plan:
+        try:
+            current_trainer = AssignSubscriber.objects.get(subscriber=current_plan)
+            end_date = current_plan.reg_date + timedelta(days=current_plan.plan.validity)
+            is_expired = end_date < datetime.now().date()
+            social_links = current_trainer.trainer.social_links if current_trainer else {}
+            achievements = TrainerAcheivements.objects.filter(trainer=current_trainer.trainer)
+        except AssignSubscriber.DoesNotExist:
+            current_trainer = None
+            social_links = {}
+        except TrainerAcheivements.DoesNotExist:
+            achievements = None
 
-        social_links = current_trainer.trainer.social_links if current_trainer else {}
-        achievements = TrainerAcheivements.objects.filter(trainer=current_trainer.trainer)
-
-    except AssignSubscriber.DoesNotExist:
-        current_trainer = None
-        social_links = {}
-
-    #to get total count of un read notifications
     notifications = Notify.objects.all().order_by('-id')
-    notifStatus = False
     total_unread = 0
 
     for d in notifications:
-        try:
-            notifStatusData = NotifUserStatus.objects.filter(user=request.user,notif= d).first()
+        notifStatusData = NotifUserStatus.objects.filter(user=request.user, notif=d).first()
+        if not notifStatusData:
+            total_unread += 1
 
-            if notifStatusData:
-                notifStatus = True
+    context = {
+        'current_plan': current_plan,
+        'current_trainer': current_trainer,
+        'total_unread': total_unread,
+        'end_date': end_date,
+        'social_links': social_links,
+        'achievements': achievements,
+        'is_expired': is_expired
+    }
 
-        except NotifUserStatus.DoesNotExist:
-            notifStatus = False
-
-        if not notifStatus:
-            total_unread+=1
- 
-    context= {'current_plan': current_plan,'current_trainer': current_trainer,'total_unread': total_unread,'end_date':end_date,'social_links':social_links,'achievements':achievements,'is_expired':is_expired}
- 
-
-    return render(request, 'user/dashboard.html',context)
+    return render(request, 'user/dashboard.html', context)
 
 
 def update_profile(request):
@@ -354,7 +359,7 @@ def subscriber_chat(request):
         trainer = assignment.trainer
         trainer_name = trainer.username
 
-    except AssignSubscriber.DoesNotExist:
+    except (AssignSubscriber.DoesNotExist, SubscriptionType.DoesNotExist):
         subscriber = None
         trainer = None
 
