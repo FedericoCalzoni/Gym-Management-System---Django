@@ -3,54 +3,61 @@ from django.conf import settings
 from django.conf.urls.static import static
 from GYM_MANAGEMENT_SYSTEM.settings import MEDIA_ROOT
 
-from . import views
-from .views import CustomLoginView,CustomLogoutView,RegisterView
+from .views import *
 
 urlpatterns = [
-    path('',views.home,name = ''),   
-    path('Faq/',views.faq_page,name = 'faq'),      
-    path('Enquiry/',views.enquiry,name = 'enquiry'),    
-    path('pages/<str:page_name>/', views.static_pages, name='static_page'),
-    path('Gallery/',views.gallery,name = 'gallery'),    
-    path('Gallery_Photos<int:id>/',views.gallery_photos,name = 'gallery_photos'),    
-    path('Subscription-Plans/',views.pricing,name = 'pricing'),    
+
+    # General 
+    path('',HomeView.as_view(),name = ''),   
+    path('Faq/',FaqPageView.as_view(),name = 'faq'),      
+    path('Enquiry/',EnquiryView.as_view(),name = 'enquiry'),    
+    path('pages/<str:page_name>/', StaticPageView.as_view(), name='static_page'),
+    path('Gallery/',GalleryView.as_view(),name = 'gallery'),    
+    path('Gallery_Photos<pk>/',GalleryPhotosView.as_view(),name = 'gallery_photos'),    
+    path('Subscription-Plans/',PricingView.as_view(),name = 'pricing'),    
   
     # User
     path('Login', CustomLoginView.as_view(),name= 'login'), 
     path('Logout', CustomLogoutView.as_view(),name= 'logout'), 
     path('Register', RegisterView.as_view(),name= 'register'), 
-    path('Dashboard', views.dashboard,name= 'dashboard'), 
-    path('Edit-Profile', views.update_profile,name= 'update_profile'), 
-    path('Report-To-Trainer', views.report_to_trainer,name= 'report_to_trainer'), 
-    path('Subscriber-Chat', views.subscriber_chat,name= 'subscriber_chat'), 
+    path('Dashboard', DashboardView.as_view(),name= 'dashboard'), 
+    path('Edit-Profile', UpdateProfileView.as_view(),name= 'update_profile'), 
+    path('Report-To-Trainer', ReportToTrainerView.as_view(),name= 'report_to_trainer'), 
+
+    # User chat
+    path('Subscriber-Chat', SubscriberChatView.as_view(),name= 'subscriber_chat'), 
     
+    # User Notifications
+    path('Notifications', NotificationsView.as_view(),name= 'notifications'), 
+    path('Get-Notifications',GetNotificationsView.as_view(),name= 'get_notifications'), 
+    path('mark_read_notifications', MarkReadNotificationsView.as_view(),name= 'mark_read_notifications'), 
 
-    path('Plan_Details/<int:plan_id>', views.checkout,name= 'checkout'), 
-    path('Checkout/<int:plan_id>', views.checkout_session,name= 'checkout_session'), 
+    # Pricing Plans
+    path('Plan_Details/<int:plan_id>', CheckoutView.as_view(),name= 'checkout'), 
+    path('Checkout/<int:plan_id>', CheckoutSessionView.as_view(),name= 'checkout_session'), 
 
-    #Payment
-    path('Payment-Successfull', views.payment_successfull,name= 'payment_successfull'), 
-    path('Payment-Cancel', views.payment_cancel,name= 'payment_cancel'), 
+    # Stripe Payment
+    path('Payment-Successfull', PaymentSuccessfulView.as_view(),name= 'payment_successfull'), 
+    path('Payment-Cancel', PaymentCancelView.as_view(),name= 'payment_cancel'), 
 
-    #Trainer
-    path('Trainer-Login', views.trainer_login,name= 'trainer_login'), 
-    path('Trainer-Dashboard', views.trainer_dashboard,name= 'trainer_dashboard'), 
-    path('Trainer-Logout', views.trainer_logout,name= 'trainer_logout'),
-    path('Change-Password', views.trainer_change_password,name= 'trainer_change_password'),
-    path('Account-Settings', views.trainer_edit_profile,name= 'trainer_edit_profile'),
-    path('Assigned-Subscribers', views.trainer_assigned_subscribers,name= 'trainer_assigned_subscribers'),
-    path('Payments', views.trainer_payments,name= 'trainer_payments'),
-    path('Trainer-Notifications', views.trainer_notifications,name= 'trainer_notifications'),
-    path('notifications/mark_all_as_read', views.mark_all_as_read,name= 'mark_all_as_read'),
-    path('Report-to-user', views.report_to_user,name= 'report_to_user'),
-    path('Trainer-Default-Chat/',views.trainer_default_chat,name = 'trainer_default_chat'),    
-    path('Trainer-Chat/<int:subscriber_id>/',views.trainer_chat,name = 'trainer_chat'),  
+    # Trainer
+    path('Trainer-Login', TrainerLoginView.as_view(),name= 'trainer_login'), 
+    path('Trainer-Dashboard', TrainerDashboardView.as_view(),name= 'trainer_dashboard'), 
+    path('Trainer-Logout', TrainerLogoutView.as_view(),name= 'trainer_logout'),
+    path('Change-Password', TrainerChangePasswordView.as_view(),name= 'trainer_change_password'),
+    path('Account-Settings', TrainerEditProfileView.as_view(),name= 'trainer_edit_profile'),
+    path('Assigned-Subscribers', TrainerAssignedSubscribersView.as_view(),name= 'trainer_assigned_subscribers'),
+    path('Payments', TrainerPaymentsView.as_view(),name= 'trainer_payments'),
+    path('Report-to-user', ReportToUserView.as_view(),name= 'report_to_user'),
+
+    # Trainer notifications
+    path('Trainer-Notifications', TrainerNotificationsView.as_view(),name= 'trainer_notifications'),
+    path('notifications/mark_all_as_read', MarkAllAsReadView.as_view(),name= 'mark_all_as_read'),
+
+    # Trainer Chat
+    path('Trainer-Default-Chat/',TrainerDefaultChatView.as_view(),name = 'trainer_default_chat'),     
+    path('Trainer-Chat/<int:subscriber_id>/',TrainerChatView.as_view(),name = 'trainer_chat'),  
     
-
-    # Notifications
-    path('Notifications', views.notifications,name= 'notifications'), 
-    path('Get-Notifications', views.get_notifications,name= 'get_notifications'), 
-    path('mark_read_notifications', views.mark_read_notifications,name= 'mark_read_notifications'), 
 
 
 ]+static(settings.MEDIA_URL,document_root = MEDIA_ROOT)
