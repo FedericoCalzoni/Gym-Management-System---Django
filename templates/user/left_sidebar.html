@@ -40,10 +40,12 @@
         <i class="bi bi-bell"></i> Notifications <span class="float-end badge bg-info mt-1 ms-auto">{{total_unread}}</span>
     </a>
 
+    {%if current_plan %}
     <a href="{% url 'subscriber_chat' %}" class="list-group-item {% if '/Subscriber-Chat' in request.path %} active {% endif %}">
      <i class="bi bi-chat-dots"></i> Chat
     </a>
-
+    {% endif %}
+    
     <a href="{% url 'report_to_trainer' %}" class="list-group-item {% if request.path == '/Report-To-Trainer' %} active {% endif %}">
         <i class="bi bi-flag"></i> Report to Trainer
     </a>
