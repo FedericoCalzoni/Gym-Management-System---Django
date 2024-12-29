@@ -1,2 +1,5 @@
 static/node_modules/
-static/lightbox2/
+GYM_MANAGEMENT_SYSTEM/__pycache__/
+main/__pycache__/
+main/migrations/__pycache__/
+venv/

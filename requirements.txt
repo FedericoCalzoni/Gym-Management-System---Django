@@ -1,0 +1,9 @@
+Django
+channels
+daphne
+django-jazzmin
+django-crispy-forms
+django-mathfilters
+psycopg2
+stripe
+Pillow
