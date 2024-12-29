@@ -1,3 +1,30 @@
+
+# Gym Management System
+
+## Setup
+
+### requirements
+
+```bash
+pip install -r requirements.txt
+cd static
+npm install
+```
+
+### Setup postgres db
+
+```bash
+docker run --name postgres-container -e POSTGRES_PASSWORD=root -e POSTGRES_USER=postgres -e POSTGRES_DB=gym_db -p 5432:5432 -d postgres
+python manage.py migrate
+```
+
+### Run
+
+```bash
+python manage.py runserver
+docker exec -it postgres-container psql -U postgres -d gym_db
+```
+
 # General Features for Everyone: 
 
 🏠 Home Page <br>

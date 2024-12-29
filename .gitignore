@@ -2,4 +2,5 @@ static/node_modules/
 GYM_MANAGEMENT_SYSTEM/__pycache__/
 main/__pycache__/
 main/migrations/__pycache__/
+main/templatetags/__pycache__/
 venv/
